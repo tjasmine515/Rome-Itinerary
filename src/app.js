@@ -439,7 +439,6 @@ function renderShell() {
   patch($('#sidebar'), `
     <div class="side-brand">
       <div class="wordmark">Booked <i>&amp;</i> Busy</div>
-      <div class="tagline">Your travels, collected.</div>
       <span class="edition-chip">Roma</span>
     </div>
     <ul class="navlist">${TABS.map(navBtn).join('')}</ul>

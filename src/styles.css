@@ -625,7 +625,7 @@ table.ledger { width: 100%; border-collapse: collapse; font-size: 14px; min-widt
 .pack-item.is-done label.txt { color: var(--ink-3); text-decoration: line-through; text-decoration-color: var(--line-2); }
 .pack-item .icon-btn { width: 32px; height: 32px; opacity: .5; }
 .pack-item:hover .icon-btn { opacity: 1; }
-.add-inline { display: flex; gap: 8px; padding: 10px 0 6px; }
+.add-inline { display: flex; align-items: center; gap: 8px; padding: 10px 0 6px; }
 .add-inline .input { min-height: 38px; font-size: 15px; padding: 7px 12px; }
 
 /* ==========================================================================

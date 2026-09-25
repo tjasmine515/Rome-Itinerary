@@ -4,12 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FBF6EC">
-<meta name="description" content="Booked & Busy — your Rome group-trip command center. Your travels, collected.">
+<meta name="description" content="Booked & Busy — your Rome group-trip command center.">
 <title>Booked &amp; Busy · Rome</title>
 <!--
   Booked & Busy — Rome edition
-  Your travels, collected.
-
   Everything lives in this one file and saves to this browser only.
   Optional custom art: put PNGs next to this file and they will be used
   automatically (emoji are shown otherwise):
@@ -655,7 +653,7 @@ table.ledger { width: 100%; border-collapse: collapse; font-size: 14px; min-widt
 .pack-item.is-done label.txt { color: var(--ink-3); text-decoration: line-through; text-decoration-color: var(--line-2); }
 .pack-item .icon-btn { width: 32px; height: 32px; opacity: .5; }
 .pack-item:hover .icon-btn { opacity: 1; }
-.add-inline { display: flex; gap: 8px; padding: 10px 0 6px; }
+.add-inline { display: flex; align-items: center; gap: 8px; padding: 10px 0 6px; }
 .add-inline .input { min-height: 38px; font-size: 15px; padding: 7px 12px; }
 
 /* ==========================================================================
@@ -1238,7 +1236,6 @@ function renderShell() {
   patch($('#sidebar'), `
     <div class="side-brand">
       <div class="wordmark">Booked <i>&amp;</i> Busy</div>
-      <div class="tagline">Your travels, collected.</div>
       <span class="edition-chip">Roma</span>
     </div>
     <ul class="navlist">${TABS.map(navBtn).join('')}</ul>
