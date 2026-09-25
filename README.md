@@ -10,7 +10,7 @@ A trip command center for a Rome group trip, built as **one self-contained file:
 2. The app opens with a sample trip so you can see how it works. Rename the trip, set your dates and add your crew on **Guest List**. Or use **Start over… → Blank trip**, which keeps the Rome ideas and booking tips.
 3. **Save a backup** downloads a `.json` file. Use **Load a backup** on another device (or send the file to the group) to pick up where you left off.
 
-Tabs: Home · Guest List · Trip Dashboard · Vibe Vote · Itinerary · Budget & Split · Booking Tracker · Packing List · Dream Board · Memories.
+Tabs: Home · Guest List · Trip Dashboard · Group Picks · Itinerary · Budget & Split · Booking Tracker · Packing List · Dream Board · Memories.
 
 ### Optional custom art
 Put images next to `index.html` and the app uses them automatically. Anything missing falls back to emoji or a built-in illustration, so you never see a broken image:

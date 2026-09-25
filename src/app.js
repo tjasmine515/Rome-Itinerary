@@ -15,7 +15,7 @@ const TABS = [
   { id: 'home', label: 'Home', short: 'Home', emoji: '🏛️' },
   { id: 'guests', label: 'Guest List', short: 'Guests', emoji: '💌' },
   { id: 'dashboard', label: 'Trip Dashboard', short: 'Today', emoji: '☀️' },
-  { id: 'vote', label: 'Vibe Vote', short: 'Vote', emoji: '💘' },
+  { id: 'vote', label: 'Group Picks', short: 'Picks', emoji: '💘' },
   { id: 'itinerary', label: 'Itinerary', short: 'Plan', emoji: '🗓️' },
   { id: 'budget', label: 'Budget & Split', short: 'Budget', emoji: '💶' },
   { id: 'bookings', label: 'Booking Tracker', short: 'Bookings', emoji: '🎟️' },
@@ -231,7 +231,7 @@ function makeSeed() {
 
   return {
     schema: SCHEMA,
-    trip: { name: "Sofia's Last Fling in Roma", start: isoOf(start), end: isoOf(end), budget: 500000, currency: '€', heroImg: '' },
+    trip: { name: "Roman Holiday", start: isoOf(start), end: isoOf(end), budget: 500000, currency: '€', heroImg: '' },
     guests: g, activities, itinerary, expenses, bookings, packing, dream, journal,
   };
 }
@@ -646,7 +646,7 @@ function viewHome() {
       <button type="button" class="tile t1" data-action="go" data-tab="itinerary">${icon('itinerary')}<div><b>Itinerary</b><span>${pl(state.itinerary.length, 'plan')} across ${pl(days.length, 'day')}</span></div><span class="go">→</span></button>
       <button type="button" class="tile t2" data-action="go" data-tab="budget">${icon('budget')}<div><b>Budget</b><span>${money(spent)} logged · ${pl(settleUp().length, 'payback')}</span></div><span class="go">→</span></button>
       <button type="button" class="tile t3" data-action="go" data-tab="packing">${icon('packing')}<div><b>Packing</b><span>${ps.pct}% of the group packed</span></div><span class="go">→</span></button>
-      <button type="button" class="tile t4" data-action="go" data-tab="vote">${icon('vote')}<div><b>Vibe Vote</b><span>${pl(unscheduled, 'idea')} to decide · ${pl(voters, 'voter')}</span></div><span class="go">→</span></button>
+      <button type="button" class="tile t4" data-action="go" data-tab="vote">${icon('vote')}<div><b>Group Picks</b><span>${pl(unscheduled, 'idea')} to decide · ${pl(voters, 'voter')}</span></div><span class="go">→</span></button>
     </div>
   </div>`;
 }
@@ -793,15 +793,15 @@ function viewGuests() {
 }
 
 /* ==========================================================================
-   VIBE VOTE
+   GROUP PICKS
    ========================================================================== */
 function viewVote() {
   const gs = state.guests;
-  if (!gs.length) return viewHead('vote', `Vibe <em>vote</em>`, '') + noGuests('everyone can vote on what the group actually wants to do');
+  if (!gs.length) return viewHead('vote', `Group <em>picks</em>`, '') + noGuests('everyone can vote on what the group actually wants to do');
   const voter = guest(ui.voteAs);
   const ranked = rankedActivities();
   const top = ranked.length ? ranked[0].n : 0;
-  return viewHead('vote', `Vibe <em>vote</em>`, 'Tap in on everything you’d actually get up early for. The list re-sorts itself so the group’s favorites float to the top.',
+  return viewHead('vote', `Group <em>picks</em>`, 'Tap in on everything you’d actually get up early for. The list re-sorts itself so the group’s favorites float to the top.',
     `<button type="button" class="btn" data-action="addActivity">${svgIcon('plus')} Suggest an idea</button>`) + `
   <div class="card" style="margin-bottom:16px">
     <div class="kicker" style="margin-bottom:10px">Who’s voting?</div>
@@ -866,7 +866,7 @@ function slotHTML(it) {
 
 function viewItinerary() {
   const days = tripDays();
-  const actions = `<button type="button" class="btn primary" data-action="winners">✨ Add from Vibe Vote</button><button type="button" class="btn" data-action="addItem" data-day="0">${svgIcon('plus')} Add plan</button>`;
+  const actions = `<button type="button" class="btn primary" data-action="winners">✨ Add from Group Picks</button><button type="button" class="btn" data-action="addItem" data-day="0">${svgIcon('plus')} Add plan</button>`;
   if (!days.length) return viewHead('itinerary', `Day by <em>day</em>`, '') + emptyState('🗓️', 'first, the dates', 'When is Rome happening?', 'Set your trip dates on the Home page and your day-by-day agenda appears here.', '<button type="button" class="btn primary" data-action="go" data-tab="home">Set trip dates</button>');
   const p = tripPhase();
   const out = state.itinerary.filter((i) => i.day >= days.length || i.day < 0);
@@ -1304,16 +1304,16 @@ function itemSheet(it, day) {
   });
 }
 
-/* ---- vibe vote winners → itinerary ---- */
+/* ---- group picks winners → itinerary ---- */
 function winnersSheet() {
   const days = tripDays();
   if (!days.length) { toast('Set your trip dates on the Home page first.'); return; }
   openSheet({
-    title: 'Add from Vibe Vote',
+    title: 'Add from Group Picks',
     draft: { picks: {} },
     body: (x) => {
       const list = rankedActivities().filter((r) => !isScheduled(r.a.id));
-      if (!list.length) return emptyState('💘', 'all caught up', 'Every idea is on the itinerary', 'Suggest more on the Vibe Vote tab.');
+      if (!list.length) return emptyState('💘', 'all caught up', 'Every idea is on the itinerary', 'Suggest more on the Group Picks tab.');
       return `<p class="muted" style="margin-bottom:12px;font-size:13.5px">Top-voted ideas that aren’t scheduled yet. Pick a day and drop them in.</p>
       <div class="pick-list">${list.map((r) => {
         const pk = x.picks[r.a.id] || { day: 0, time: '' };
@@ -1331,7 +1331,7 @@ function winnersSheet() {
   });
 }
 
-/* ---- activity (vibe vote idea) ---- */
+/* ---- activity (group picks idea) ---- */
 function activitySheet() {
   openSheet({
     title: 'Suggest an idea',
@@ -1698,7 +1698,7 @@ const A = {
     state.activities.push({ id: uid(), emoji: k.emoji, title: d.title, note: d.note, votes: [], custom: true });
     d.promoted = d.promoted || 'vote';
     commit();
-    toast('Added to the Vibe Vote', { action: 'View', onAction: () => go('vote') });
+    toast('Added to Group Picks', { action: 'View', onAction: () => go('vote') });
   },
 
   writeDay: (el) => {
