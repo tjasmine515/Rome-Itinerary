@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FBF6EC">
+<meta name="description" content="Booked & Busy — your Rome group-trip command center. Your travels, collected.">
+<title>Booked &amp; Busy · Rome</title>
+<!--
+  Booked & Busy — Rome edition
+  Your travels, collected.
+
+  Everything lives in this one file and saves to this browser only.
+  Optional custom art: put PNGs next to this file and they will be used
+  automatically (emoji are shown otherwise):
+    images/hero.jpg              hero banner on the Home page
+    icons/home.png  icons/guests.png  icons/dashboard.png  icons/vote.png
+    icons/itinerary.png  icons/budget.png  icons/bookings.png
+    icons/packing.png  icons/dream.png  icons/memories.png
+    icons/doodle-1.png  icons/doodle-2.png  icons/doodle-3.png   (accent doodles)
+-->
+<style>
+/*__FONTS__*/
+/*__STYLES__*/
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <aside class="sidebar" id="sidebar" aria-label="Trip sections"></aside>
+  <main class="main">
+    <header class="topbar" id="topbar"></header>
+    <div id="view"></div>
+  </main>
+  <nav class="bottomnav" id="bottomnav" aria-label="Trip sections"></nav>
+</div>
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-backdrop" data-action="closeSheet"></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true" id="sheetPanel"></div>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<input type="file" id="filePick" accept="application/json,.json" hidden>
+<input type="file" id="photoPick" accept="image/*" hidden>
+<script>
+/*__SCRIPT__*/
+</script>
+</body>
+</html>
