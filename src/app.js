@@ -1,63 +1,29 @@
 'use strict';
 /* ==========================================================================
-   Booked & Busy — Rome edition
+   Booked & Busy — shared trip planner (city content comes from CITY)
    One central `state` object → localStorage. Every tab reads guests from
    state.guests, so a name is typed once and used everywhere.
    ========================================================================== */
 
-const STORE_KEY = 'bookedBusy:rome:v1';
-const TAB_KEY = 'bookedBusy:rome:tab';
-const BACKUP_KEY = 'bookedBusy:rome:lastBackup';
-const WELCOME_KEY = 'bookedBusy:rome:welcomeDismissed';
+const STORE_KEY = `bookedBusy:${CITY.id}:v1`;
+const TAB_KEY = `bookedBusy:${CITY.id}:tab`;
+const BACKUP_KEY = `bookedBusy:${CITY.id}:lastBackup`;
+const WELCOME_KEY = `bookedBusy:${CITY.id}:welcomeDismissed`;
 const SCHEMA = 1;
 
-const TABS = [
-  { id: 'home', label: 'Home', short: 'Home', emoji: '🏛️' },
-  { id: 'guests', label: 'Guest List', short: 'Guests', emoji: '💌' },
-  { id: 'dashboard', label: 'Trip Dashboard', short: 'Today', emoji: '☀️' },
-  { id: 'vote', label: 'Group Picks', short: 'Picks', emoji: '💘' },
-  { id: 'itinerary', label: 'Itinerary', short: 'Plan', emoji: '🗓️' },
-  { id: 'budget', label: 'Budget & Split', short: 'Budget', emoji: '💶' },
-  { id: 'bookings', label: 'Booking Tracker', short: 'Bookings', emoji: '🎟️' },
-  { id: 'packing', label: 'Packing List', short: 'Packing', emoji: '🧳' },
-  { id: 'dream', label: 'Dream Board', short: 'Dream', emoji: '✨' },
-  { id: 'memories', label: 'Memories', short: 'Memories', emoji: '📸' },
-];
-const BOTTOM_TABS = ['home', 'itinerary', 'vote', 'budget'];
+const TABS = CITY.tabs;
+const BOTTOM_TABS = CITY.bottomTabs;
 
-const CATS = [
-  { id: 'stay', label: 'Accommodation', emoji: '🛏️', color: '#2F3D33' },
-  { id: 'food', label: 'Food & drink', emoji: '🍝', color: '#E7AF3F' },
-  { id: 'activities', label: 'Activities', emoji: '🎟️', color: '#39B8AC' },
-  { id: 'transport', label: 'Transport', emoji: '🚆', color: '#C0785A' },
-  { id: 'other', label: 'Other', emoji: '🛍️', color: '#D2B48C' },
-];
+const CATS = CITY.categories;
 const SETTLE_CAT = { id: 'settlement', label: 'Paid back', emoji: '💸', color: '#999' };
 
-const PACK_CATS = [
-  { id: 'clothing', label: 'Clothing', emoji: '👗' },
-  { id: 'toiletries', label: 'Toiletries', emoji: '🧴' },
-  { id: 'documents', label: 'Documents', emoji: '🛂' },
-  { id: 'misc', label: 'Misc', emoji: '🔌' },
-  { id: 'rome', label: 'Rome-specific', emoji: '🍋' },
-];
-const PACK_TEMPLATE = {
-  clothing: ['Outfits for every day (+1 spare)', 'Rooftop dinner outfit', 'Light layer for evenings', 'Sunglasses'],
-  toiletries: ['Travel-size SPF', 'Blister plasters', 'Meds + prescriptions', 'Hair tools (dual voltage!)'],
-  documents: ['Passport (valid 3+ months after the trip)', 'Check entry rules for your passport (ETIAS/EES)', 'Travel insurance details', 'Offline copies of every booking'],
-  misc: ['EU plug adapter (Type C / F / L)', 'Portable charger', 'Small cross-body bag that zips'],
-  rome: ['Shoulders & knees coverage for the Vatican + churches', 'Comfortable shoes for cobblestones', 'Light scarf to cover up in churches', 'Refillable bottle for the nasoni fountains', 'Coins for the Trevi Fountain', 'A little cash (€) for cafés & tips'],
-};
+const PACK_CATS = CITY.packCats;
+const PACK_TEMPLATE = CITY.packTemplate;
 
-const DREAM_KINDS = [
-  { id: 'see', label: 'Go see', emoji: '👀', bg: '#E5EFDF' },
-  { id: 'eat', label: 'Eat & drink', emoji: '🍨', bg: '#F3E3CC' },
-  { id: 'daytrip', label: 'Day trip', emoji: '🚆', bg: '#DCE8E3' },
-  { id: 'shop', label: 'Shop', emoji: '🛍️', bg: '#F3E5CA' },
-  { id: 'night', label: 'Night out', emoji: '🍸', bg: '#E6ECDF' },
-];
+const DREAM_KINDS = CITY.dreamKinds;
 
-const GUEST_COLORS = ['#39B8AC', '#536C52', '#B8862A', '#2F3D33', '#23877E', '#7D8B6A', '#C9A55A', '#5F8C8C', '#8FA88E', '#9A8A5A'];
+const GUEST_COLORS = CITY.guestColors;
+const S = CITY.strings;
 
 /* ---------- small utils ---------- */
 const $ = (s, r = document) => r.querySelector(s);
@@ -134,114 +100,73 @@ function icon(tabId, cls = '') {
 const doodle = (n, style = '') => (ASSETS.has(`icons/doodle-${n}.png`) ? `<img src="icons/doodle-${n}.png" alt="" style="position:absolute;pointer-events:none;${style}">` : '');
 
 /* ==========================================================================
-   Seed data — a realistic Rome group trip so the app looks alive on day one
+   Seed data — a realistic sample trip (from the city file) so the app looks alive on day one
    ========================================================================== */
 function makeSeed() {
   const t = today();
-  const start = addDays(t, 45);
-  const end = addDays(start, 4);
+  const sm = CITY.sample;
+  let start = addDays(t, sm.startInDays);
+  // Nudge the sample forward so none of its plans land on a day that venue is closed.
+  for (let k = 0; k < 7 && sm.itinerary.some((x) => closureFor(x.title, addDays(start, x.day))); k++) start = addDays(start, 1);
+  const end = addDays(start, sm.nights);
   const D = (n) => isoOf(addDays(start, n));
-  const g = ['Sofia Romano', 'Maya Chen', 'Jess Alvarez', 'Priya Nair', 'Lauren Brooks'].map((name, i) => ({ id: 'g' + (i + 1), name, color: GUEST_COLORS[i], diet: '', arrive: '', depart: '', confirmed: true }));
-  g[0].diet = 'Vegetarian';
-  g[1].diet = 'Tree-nut allergy (carries an EpiPen)';
-  g[2].arrive = D(1);
-  g[3].diet = 'No shellfish';
-  g[4].confirmed = false;
-  const V = (...ix) => ix.map((i) => g[i].id);
+  const gid = (i) => 'g' + (i + 1);
+  const g = sm.guests.map((x, i) => ({ id: gid(i), name: x.name, color: GUEST_COLORS[i], diet: x.diet || '', arrive: x.arriveDay != null ? D(x.arriveDay) : '', depart: x.departDay != null ? D(x.departDay) : '', confirmed: x.confirmed !== false }));
+  const V = (ix) => ix.map(gid);
 
-  const activities = [
-    ['a1', '🏛️', 'Colosseum + Roman Forum underground tour', 'Arena floor and the hypogeum tunnels where gladiators waited.', V(0, 1, 2, 3, 4)],
-    ['a2', '🎨', 'Vatican Museums & Sistine Chapel (timed entry)', 'First slot of the day, before the tour groups. Cover shoulders + knees.', V(0, 1, 3, 4)],
-    ['a3', '🗿', 'Borghese Gallery', 'Bernini marble that looks like skin. Strict 2-hour timed slots.', V(1, 3)],
-    ['a4', '🍝', 'Hands-on pasta & tiramisù class', 'Fettuccine, cacio e pepe, and a dessert we made ourselves.', V(0, 1, 2, 3, 4)],
-    ['a5', '🍷', 'Trastevere evening food tour', 'Supplì, carbonara, and wine bars down ivy-covered lanes.', V(0, 2, 4)],
-    ['a6', '🍹', 'Aperol-hour terrace crawl', 'Three terraces, three spritzes, golden hour.', V(0, 1, 2, 4)],
-    ['a7', '🌋', 'Day trip to Pompeii', 'High-speed train to Naples, then the ruins. Long, unforgettable day.', V(1, 3)],
-    ['a8', '⛲', "Day trip to Tivoli (Villa d'Este)", 'Renaissance fountain gardens about an hour outside the city.', V(3)],
-    ['a9', '🪙', 'Trevi Fountain coin toss at sunrise', 'Same fountain, zero crowds — it is a different place at 7am.', V(0, 1, 2, 3)],
-    ['a10', '🍋', "Campo de' Fiori market morning", 'Produce stalls, limoncello samples, and a caffè standing at the bar.', V(2, 4)],
-    ['a11', '👠', 'Spanish Steps + Via Condotti shopping', 'Window-shop the big names, then gelato on the steps (no sitting!).', V(0, 2, 4)],
-    ['a12', '🌅', 'Rooftop dinner with a Colosseum view', 'The big group dinner. Dress up.', V(0, 1, 2, 3, 4)],
-    ['a13', '🚲', 'Bike the Appian Way', 'The ancient road south of the city: catacombs, aqueducts, umbrella pines.', V(1)],
-  ].map(([id, emoji, title, note, votes]) => ({ id, emoji, title, note, votes, custom: false }));
+  const activities = sm.activities.map((a) => ({ ...a, votes: V(a.votes), custom: false }));
 
-  const bookings = [
-    { id: 'b1', title: 'Vatican Museums & Sistine Chapel — timed entry', bookBy: D(-42), assignee: 'g2', booked: false, cost: 0, ref: '', food: false,
-      tip: 'Tickets open about 60 days ahead on the official Vatican Museums site and the early slots go first in busy months. Book there, not through resellers — and pack shoulder & knee coverage.' },
-    { id: 'b2', title: 'Colosseum underground + arena tour', bookBy: D(-35), assignee: 'g4', booked: false, cost: 0, ref: '', food: false,
-      tip: 'Underground (hypogeum) and arena-floor tickets are capacity-limited and released in batches on the official Colosseum site, typically around a month ahead. Set a reminder — they can sell out within hours in peak season.' },
-    { id: 'b6', title: 'Rome → Naples high-speed trains (Pompeii day)', bookBy: D(-38), assignee: 'g5', booked: false, cost: 0, ref: '', food: false,
-      tip: 'Frecciarossa and Italo fares work like airfares: cheaper the earlier you book. From Naples, the Circumvesuviana local train runs to Pompei Scavi — buy Pompeii site tickets online to skip the queue.' },
-    { id: 'b3', title: 'Borghese Gallery', bookBy: D(-21), assignee: 'g5', booked: false, cost: 0, ref: '', food: false,
-      tip: 'Advance booking is required: entry is by timed 2-hour slot and capacity is limited. Weekend slots can sell out weeks ahead. Bags must be checked, so travel light.' },
-    { id: 'b4', title: 'Rooftop dinner — Colosseum-view terrace', bookBy: D(-14), assignee: 'g3', booked: false, cost: 0, ref: '', food: true,
-      tip: 'Terrace tables for groups of 5+ go first. Ask for the terrace specifically and expect a set menu or card deposit for larger groups. Book around sunset for the photos.' },
-    { id: 'b5', title: 'Pasta & tiramisù cooking class', bookBy: D(-28), assignee: 'g2', booked: true, cost: 42500, ref: 'PASTA-5582', food: true,
-      tip: 'Small-group classes often cap around 10–12 people, so a group of 5 can fill half a class. Book early and send dietary notes ahead of time.' },
-  ];
+  const bookings = sm.bookings.map(({ bookByDay, ...b }) => ({
+    ...b,
+    bookBy: b.lead != null ? D(-b.lead) : D(bookByDay),
+    assignee: b.assignee == null ? '' : gid(b.assignee),
+  }));
 
   let n = 0;
-  const I = (day, time, title, note, activityId = '', bookingId = '', cost = 0) => ({ id: 'i' + (++n), day, time, title, note, activityId, bookingId, cost });
-  const itinerary = [
-    I(0, '14:00', 'Check in — apartment in Monti', 'Keys from the café downstairs. 3 bedrooms, 2 baths, one very good balcony.'),
-    I(0, '18:00', 'Aperol-hour terrace crawl', 'Start on the rooftop, end wherever the night takes us.', 'a6'),
-    I(0, '20:30', 'Welcome dinner in Trastevere', 'Walk-in trattoria — early in the week you rarely need a reservation.'),
-    I(1, '09:00', 'Colosseum + Roman Forum underground tour', 'Be at the meeting point 15 min early with ID matching the tickets.', 'a1', 'b2'),
-    I(1, '13:30', 'Lunch + gelato in Monti', ''),
-    I(1, '17:00', 'Pasta & tiramisù class', 'Aprons provided. Arrive 10 minutes early.', 'a4', 'b5'),
-    I(2, '08:30', 'Vatican Museums & Sistine Chapel', 'Shoulders & knees covered! No photos in the Sistine Chapel.', 'a2', 'b1'),
-    I(2, '14:00', 'Afternoon rest', ''),
-    I(2, '19:30', 'Rooftop dinner with a Colosseum view', 'Dress code: smart casual.', 'a12', 'b4'),
-    I(3, '07:45', 'Train to Naples → Pompeii', 'From Roma Termini. Water + sunscreen — there is very little shade in the ruins.', 'a7', 'b6'),
-    I(3, '19:30', 'Pizza night in', 'Easy night in after a long day.'),
-    I(4, '09:30', "Campo de' Fiori market morning", 'Last cornetti + souvenir limoncello.', 'a10'),
-    I(4, '12:00', 'Check out + airport transfer', 'Leonardo Express from Termini, or pre-book a van for 5 with bags.'),
-  ];
+  const itinerary = sm.itinerary.map((x) => ({ id: 'i' + (++n), day: x.day, time: x.time, title: x.title, note: x.note || '', activityId: x.activityId || '', bookingId: x.bookingId || '', cost: x.cost || 0 }));
 
-  const expenses = [
-    { id: 'e1', desc: 'Apartment in Monti (4 nights)', amount: 185000, category: 'stay', date: isoOf(addDays(t, -20)), paidBy: 'g2', mode: 'even', participants: V(0, 1, 2, 3, 4), custom: {} },
-    { id: 'e2', desc: 'Pasta class deposit', amount: 42500, category: 'activities', date: isoOf(addDays(t, -9)), paidBy: 'g2', mode: 'even', participants: V(0, 1, 2, 3, 4), custom: {} },
-    { id: 'e3', desc: 'Train tickets to Naples (4 of us)', amount: 23000, category: 'transport', date: isoOf(addDays(t, -6)), paidBy: 'g5', mode: 'percent', participants: V(1, 2, 3, 4), custom: { g2: 25, g3: 25, g4: 25, g5: 25 } },
-    { id: 'e4', desc: 'Snacks & supplies for the apartment', amount: 4600, category: 'other', date: isoOf(addDays(t, -3)), paidBy: 'g4', mode: 'amount', participants: V(1, 2, 3, 4), custom: { g2: 1600, g3: 1000, g4: 1000, g5: 1000 } },
-  ];
+  const expenses = sm.expenses.map(({ daysAgo, ...e }) => ({
+    ...e,
+    date: isoOf(addDays(t, -daysAgo)),
+    paidBy: gid(e.paidBy),
+    participants: V(e.participants),
+    custom: Object.fromEntries(Object.entries(e.custom || {}).map(([k, v]) => [gid(+k), v])),
+  }));
 
   const packing = [];
-  const packedRate = [0.35, 0.8, 0.1, 0.55, 0];
   g.forEach((guest, gi) => {
     let k = 0;
     PACK_CATS.forEach((c) => PACK_TEMPLATE[c.id].forEach((text) => {
-      packing.push({ id: uid(), guestId: guest.id, cat: c.id, text, done: ((k++ * 7) % 10) / 10 < packedRate[gi] });
+      packing.push({ id: uid(), guestId: guest.id, cat: c.id, text, done: ((k++ * 7) % 10) / 10 < sm.packedRate[gi] });
     }));
   });
 
-  const dream = [
-    { id: 'd1', title: 'Aventine Keyhole', note: "Peek through the Knights of Malta keyhole — St. Peter's dome, perfectly framed.", kind: 'see', link: '', promoted: '', rot: -2 },
-    { id: 'd2', title: 'Gelato showdown', note: 'Giolitti vs. Fatamorgana. Try both and pick a favorite.', kind: 'eat', link: '', promoted: '', rot: 1.5 },
-    { id: 'd3', title: 'Orvieto day trip', note: 'Hilltop town, striped cathedral, a glass of the local white. ~1 hr by train.', kind: 'daytrip', link: '', promoted: '', rot: -1 },
-    { id: 'd4', title: 'Vintage on Via del Governo Vecchio', note: 'Second-hand designer finds a few steps from Piazza Navona.', kind: 'shop', link: '', promoted: '', rot: 2 },
-    { id: 'd5', title: 'Sunset at the Pincio Terrace', note: 'Free, golden, and right above Piazza del Popolo.', kind: 'see', link: '', promoted: '', rot: -2.5 },
-    { id: 'd6', title: 'Late-night jazz in Trastevere', note: 'For the night nobody wants to go home.', kind: 'night', link: '', promoted: '', rot: 1 },
-  ];
-
-  const journal = [
-    { id: 'j1', day: null, title: 'The night we booked it', quote: '',
-      text: 'Group chat hit 400 messages deciding between Monti and Trastevere. Maya made a spreadsheet. We ignored the spreadsheet. We picked the apartment with the balcony.',
-      favorite: 'Sofia screaming "ROMA!!" in a voice note at 1am.' },
-  ];
+  const dream = sm.dream.map((d) => ({ ...d, link: d.link || '', promoted: '' }));
+  const journal = sm.journal.map((j) => ({ ...j, quote: j.quote || '' }));
 
   return {
     schema: SCHEMA,
-    trip: { name: "Roman Holiday", start: isoOf(start), end: isoOf(end), budget: 500000, currency: '€' },
+    trip: { name: sm.tripName, start: isoOf(start), end: isoOf(end), budget: sm.budget, currency: '€' },
     guests: g, activities, itinerary, expenses, bookings, packing, dream, journal,
+    ...cityExtras(),
   };
 }
 
-/** Blank trip that keeps the Rome know-how (ideas, booking tips) but none of the sample people or money. */
+/** Extra trip data only some cities use (price guide, tourist-tax calculator). */
+function cityExtras() {
+  const out = {};
+  const bud = CITY.budget || {};
+  if (bud.prices) out.prices = bud.prices.map((x) => ({ ...x }));
+  if (bud.touristTax) out.tax = { stay: bud.touristTax.default, adults: '', nights: '', nightly: '' };
+  return out;
+}
+
+/** Blank trip that keeps the city know-how (ideas, booking tips) but none of the sample people or money. */
 function makeBlank() {
   const s = makeSeed();
   return {
     ...s,
-    trip: { ...s.trip, name: 'Our Rome Trip', budget: 0 },
+    trip: { ...s.trip, name: S.blankTripName, budget: 0 },
     guests: [], itinerary: [], expenses: [], packing: [], journal: [],
     activities: s.activities.map((a) => ({ ...a, votes: [] })),
     bookings: s.bookings.map((b) => ({ ...b, assignee: '', booked: false, cost: 0, ref: '' })),
@@ -251,10 +176,13 @@ function makeBlank() {
 
 /** Fill in anything missing without touching well-formed data (keeps backups round-tripping exactly). */
 function normalize(d) {
-  const blank = { schema: SCHEMA, trip: { name: 'Our Rome Trip', start: '', end: '', budget: 0, currency: '€' },
+  const blank = { schema: SCHEMA, trip: { name: S.blankTripName, start: '', end: '', budget: 0, currency: '€' },
     guests: [], activities: [], itinerary: [], expenses: [], bookings: [], packing: [], dream: [], journal: [] };
   const out = { ...blank, ...d, trip: { ...blank.trip, ...(d.trip || {}) } };
   for (const k of ['guests', 'activities', 'itinerary', 'expenses', 'bookings', 'packing', 'dream', 'journal']) if (!Array.isArray(out[k])) out[k] = [];
+  const extras = cityExtras();
+  if (extras.prices && !Array.isArray(out.prices)) out.prices = extras.prices;
+  if (extras.tax) out.tax = { ...extras.tax, ...(isObj(out.tax) ? out.tax : {}) };
   // photos were removed; drop any leftovers so trips stay small enough to sync
   delete out.trip.heroImg;
   out.dream.forEach((d) => { if ('img' in d) delete d.img; if (d.link == null) d.link = ''; });
@@ -384,6 +312,13 @@ const isScheduled = (actId) => state.itinerary.some((i) => i.activityId === actI
 function rankedActivities() {
   return state.activities.map((a, idx) => ({ a, idx, n: validVotes(a).length })).sort((x, y) => (y.n - x.n) || (x.idx - y.idx));
 }
+/** Venue closures from the city file: { venue, match: [words], days: [0 = Sunday … 6], label }. */
+const fold = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+function closureFor(text, date) {
+  if (!date || !CITY.closures) return null;
+  const t = fold(text);
+  return CITY.closures.find((c) => c.days.includes(date.getDay()) && c.match.some((m) => t.includes(fold(m)))) || null;
+}
 function dietNotes() { return state.guests.filter((g) => g.diet && g.diet.trim()); }
 
 /* ==========================================================================
@@ -446,7 +381,7 @@ function renderShell() {
     <div class="side-brand">
       <div class="wordmark">${LOGO_SVG}</div>
       <div class="tagline">Everyone on the same page.</div>
-      <span class="edition-chip">Roma</span>
+      <span class="edition-chip">${CITY.localName}</span>
     </div>
     <ul class="navlist">${TABS.map(navBtn).join('')}</ul>
     <div class="side-foot">${backupCard()}</div>`);
@@ -460,7 +395,7 @@ function renderShell() {
   const t = TABS.find((x) => x.id === ui.tab);
   patch($('#topbar'), `
     <div class="brandmark">${LOGO_SVG}</div>
-    <span class="edition-chip only-mobile">Roma</span>
+    <span class="edition-chip only-mobile">${CITY.localName}</span>
     <span class="title-sm only-desktop">${esc(state.trip.name)} · ${esc(t.label)}</span>
     <span class="spacer"></span>
     ${SYNC.on ? `${meButton()}<span class="sync-pill ${SYNC.status}" title="${esc(syncLabel())}"><i></i><span class="only-desktop">${esc(syncLabel())}</span></span>
@@ -529,51 +464,19 @@ const check = (attrs, on, label = '') => `<span class="check"><input type="check
 /* ==========================================================================
    HOME
    ========================================================================== */
-function heroArt() {
-  const arches = [];
-  const rows = [[62, 34, 0, 250], [108, 34, 0, 330], [152, 36, 0, 360]];
-  rows.forEach(([y, h, x0, x1]) => {
-    for (let x = x0 + 12; x + 22 <= x1 - 8; x += 34) arches.push(`M${x} ${y + h}v-${h * 0.55}a11 11 0 0 1 22 0v${h * 0.55}z`);
-  });
-  return `<svg viewBox="0 0 800 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    <defs>
-      <linearGradient id="hsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FC7BE"/><stop offset=".55" stop-color="#E5EFDF"/><stop offset="1" stop-color="#F4D9AE"/></linearGradient>
-    </defs>
-    <rect width="800" height="420" fill="url(#hsky)"/>
-    <circle cx="590" cy="200" r="96" fill="#F3C07E" opacity=".85"/>
-    <circle cx="590" cy="200" r="130" fill="#F3C07E" opacity=".18"/>
-    <g fill="#6FAFA6" opacity=".75">
-      <path d="M60 330h170v-40h-14a71 71 0 0 0-142 0H60z"/><rect x="138" y="196" width="14" height="24" rx="3"/><circle cx="145" cy="190" r="5"/>
-      <path d="M0 330v-22h30v-18h26v40zM236 330v-28h38v-14h30v42z"/>
-    </g>
-    <path fill="#C99B6B" opacity=".55" d="M0 350v-30h52v-12h40v18h36v-26h44v22h60v-16h40v44z"/>
-    <g transform="translate(400 190)">
-      <path fill="#91602A" d="M0 200V44Q120 8 250 14l6 46 40 8 20 12 44 6v114z"/>
-      <path fill="#7E5223" d="M0 200V56Q120 26 250 30v8Q120 36 0 66z" opacity=".6"/>
-      <path fill="#F1DDBC" d="${arches.join('')}"/>
-      <path fill="#1A665F" d="M0 102h330M0 146h360" stroke="#1A665F" stroke-width="4"/>
-    </g>
-    <g fill="#2F3D33">
-      <path d="M104 420c3-60 6-104 14-150l6 1c-6 46-9 90-10 149z"/>
-      <ellipse cx="120" cy="262" rx="74" ry="20"/><ellipse cx="92" cy="250" rx="42" ry="14"/><ellipse cx="150" cy="248" rx="46" ry="15"/>
-      <path d="M730 420c-2-54-6-92-16-128l6-2c10 36 14 76 16 130z"/>
-      <ellipse cx="716" cy="284" rx="62" ry="17"/><ellipse cx="740" cy="272" rx="40" ry="13"/>
-      <rect y="396" width="800" height="24"/>
-    </g>
-  </svg>`;
-}
+const heroArt = () => CITY_HERO;
 
 function countdownStamp() {
   const p = tripPhase();
   const days = tripDays();
   let big = '?', lbl = 'set your dates';
-  if (p.phase === 'before') { big = p.until; lbl = p.until === 1 ? 'day until Rome' : 'days until Rome'; }
-  else if (p.phase === 'during') { big = p.index + 1; lbl = `day ${p.index + 1} of ${days.length} · in Rome`; }
+  if (p.phase === 'before') { big = p.until; lbl = p.until === 1 ? `day until ${CITY.name}` : `days until ${CITY.name}`; }
+  else if (p.phase === 'during') { big = p.index + 1; lbl = `day ${p.index + 1} of ${days.length} · in ${CITY.name}`; }
   else if (p.phase === 'after') { big = '✓'; lbl = 'trip complete'; }
   const start = days[0] ? days[0].date : null;
   return `<div class="stamp-wrap" aria-label="${esc(`${big} ${lbl}`)}">
-    <div class="stamp"><div class="stamp-inner"><div class="roma">Roma</div><div class="big num">${big}</div><div class="lbl">${lbl}</div></div></div>
-    <div class="postmark" aria-hidden="true"><span>Roma<br>${start ? esc(start.toLocaleDateString(undefined, { day: '2-digit', month: 'short' })) : '— —'}<br>B&amp;B</span>
+    <div class="stamp"><div class="stamp-inner"><div class="roma">${CITY.localName}</div><div class="big num">${big}</div><div class="lbl">${lbl}</div></div></div>
+    <div class="postmark" aria-hidden="true"><span>${CITY.localName}<br>${start ? esc(start.toLocaleDateString(undefined, { day: '2-digit', month: 'short' })) : '— —'}<br>B&amp;B</span>
       <svg class="wave" viewBox="0 0 70 30" fill="none" stroke="rgba(47,61,51,.5)" stroke-width="2"><path d="M0 5q9-6 17 0t17 0 17 0 19 0M0 15q9-6 17 0t17 0 17 0 19 0M0 25q9-6 17 0t17 0 17 0 19 0"/></svg>
     </div>
   </div>`;
@@ -601,7 +504,7 @@ function viewHome() {
       <div class="hero-inner">
         <div class="hero-card">
           ${doodle(1, 'right:-18px;top:-30px;width:70px;transform:rotate(10deg)')}
-          <div class="kicker">Booked &amp; Busy · Rome</div>
+          <div class="kicker">Booked &amp; Busy · ${CITY.name}</div>
           <label class="sr-only" for="tripName">Trip name</label>
           <textarea id="tripName" class="trip-name autosize" rows="1" data-bind="trip::name" maxlength="80" placeholder="Name your trip">${esc(tr.name)}</textarea>
           <div class="date-row">
@@ -644,7 +547,7 @@ function viewHome() {
       <span class="s">${ps.total ? `${ps.done} of ${ps.total} items across the group` : 'No packing lists yet'}</span>
     </button>
     <button type="button" class="card lift stat" data-action="go" data-tab="itinerary">
-      <span class="kicker">${p.phase === 'during' ? 'In Rome' : p.phase === 'after' ? 'Trip' : 'Countdown'}</span>${icon('itinerary')}
+      <span class="kicker">${p.phase === 'during' ? `In ${CITY.name}` : p.phase === 'after' ? 'Trip' : 'Countdown'}</span>${icon('itinerary')}
       <span class="v num">${daysLabel} <small>${p.phase === 'before' ? (p.until === 1 ? 'day to go' : 'days to go') : p.phase === 'during' ? `of ${days.length}` : p.phase === 'after' ? 'complete' : 'no dates yet'}</small></span>
       <span class="s">${days.length ? `${fmtDay(days[0].date)} → ${fmtDay(days[days.length - 1].date)}` : 'Add dates in the card above'}</span>
     </button>
@@ -692,7 +595,7 @@ function viewDashboard() {
     todayCard = `<div class="card washi today-card">
       <div class="kicker">Today · ${esc(fmtLong(today()))}</div>
       <h3 style="font-size:26px;margin:6px 0 4px">The trip hasn’t started yet</h3>
-      <p class="muted">${p.until === 1 ? 'Tomorrow is the day.' : `${p.until} days until Rome.`} Here’s how Day 1 looks so far:</p>
+      <p class="muted">${p.until === 1 ? 'Tomorrow is the day.' : `${p.until} days until ${CITY.name}.`} Here’s how Day 1 looks so far:</p>
       <div style="margin-top:12px"><div class="dayname">Day 1 · ${esc(fmtDay(days[0].date))}</div>
       ${first.length ? agendaList(first) : '<p class="faint" style="padding:10px 0">Nothing planned for Day 1 yet.</p>'}</div>
       <button type="button" class="btn small" data-action="go" data-tab="itinerary" style="margin-top:8px">See the full itinerary →</button>
@@ -805,7 +708,7 @@ function viewGuests() {
         </div>
       </div>
     </div>`;
-  }).join('')}</div>` : emptyState('💌', 'start here', 'Who’s coming to Rome?', 'Add your first traveler above. Their name will show up everywhere in the planner.')}`;
+  }).join('')}</div>` : emptyState('💌', 'start here', `Who’s coming to ${CITY.name}?`, 'Add your first traveler above. Their name will show up everywhere in the planner.')}`;
 }
 
 /* ==========================================================================
@@ -855,7 +758,7 @@ function viewVote() {
           : `<div class="gchips">${gs.map((g) => gchip(g, votes.includes(g.id), `data-action="vote" data-id="${a.id}" data-g="${g.id}"`)).join('')}</div>`}
       </div>
     </div>`;
-  }).join('') || emptyState('💘', 'no ideas yet', 'Nothing to vote on', 'Suggest the first thing you want to do in Rome.', '<button type="button" class="btn primary" data-action="addActivity">Suggest an idea</button>')}</div>`;
+  }).join('') || emptyState('💘', 'no ideas yet', 'Nothing to vote on', `Suggest the first thing you want to do in ${CITY.name}.`, '<button type="button" class="btn primary" data-action="addActivity">Suggest an idea</button>')}</div>`;
 }
 
 /* ==========================================================================
@@ -1103,9 +1006,9 @@ function viewPacking() {
   <div class="grid cols-2">${PACK_CATS.map((c) => {
     const items = state.packing.filter((p) => p.guestId === me.id && p.cat === c.id);
     const done = items.filter((p) => p.done).length;
-    return `<section class="card pack-cat ${c.id === 'rome' ? 'rome washi' : ''}" data-key="pc-${c.id}">
+    return `<section class="card pack-cat ${c.id === CITY.packCityCat ? `${c.id} washi` : ''}" data-key="pc-${c.id}">
       <div class="card-head"><span class="ico" aria-hidden="true">${c.emoji}</span><h3>${c.label}</h3><span class="chip ${done === items.length && items.length ? 'mint' : ''}">${done}/${items.length}</span></div>
-      ${c.id === 'rome' ? '<p class="hand" style="color:var(--ochre);font-size:18px;margin:-6px 0 6px">Churches and the Vatican require covered shoulders and knees.</p>' : ''}
+      ${c.id === CITY.packCityCat && S.packNote ? `<p class="hand" style="color:var(--ochre);font-size:18px;margin:-6px 0 6px">${S.packNote}</p>` : ''}
       ${items.map((p) => `<div class="pack-item ${p.done ? 'is-done' : ''}" data-key="pk-${p.id}">
         ${check(`id="pk-${p.id}" data-bind="packing:${p.id}:done" data-after="celebratePacked"`, p.done)}
         <label class="txt" for="pk-${p.id}">${esc(p.text)}</label>
@@ -1302,7 +1205,7 @@ function itemSheet(it, day) {
     submitLabel: isNew ? 'Add to itinerary' : 'Save',
     valid: (x) => x.title.trim(),
     body: (x) => `<div class="form-grid">
-      <label class="field full"><span>What’s the plan?</span><input class="input" data-d="title" value="${esc(x.title)}" placeholder="e.g. Aperitivo at a rooftop bar" maxlength="100" autofocus></label>
+      <label class="field full"><span>What’s the plan?</span><input class="input" data-d="title" value="${esc(x.title)}" placeholder="${esc(S.phPlan)}" maxlength="100" autofocus></label>
       <label class="field"><span>Day</span><select class="select" data-d="day" data-type="int">${dayOptions(x.day)}${x.day >= days.length ? `<option value="${x.day}" selected>Outside trip dates</option>` : ''}</select></label>
       <label class="field"><span>Time <small class="faint">(optional)</small></span><input type="time" class="input" data-d="time" value="${esc(x.time)}"></label>
       <label class="field full"><span>Notes</span><textarea class="textarea" data-d="note" rows="3" placeholder="Meeting point, dress code, who has the tickets…">${esc(x.note)}</textarea></label>
@@ -1356,7 +1259,7 @@ function activitySheet() {
     body: (x) => `<div class="form-grid">
       <label class="field"><span>Emoji</span><input class="input" data-d="emoji" value="${esc(x.emoji)}" maxlength="4" style="font-size:22px;text-align:center"></label>
       <div></div>
-      <label class="field full"><span>Idea</span><input class="input" data-d="title" value="${esc(x.title)}" placeholder="e.g. Vespa tour at night" maxlength="90" autofocus></label>
+      <label class="field full"><span>Idea</span><input class="input" data-d="title" value="${esc(x.title)}" placeholder="${esc(S.phIdea)}" maxlength="90" autofocus></label>
       <label class="field full"><span>Why we should</span><input class="input" data-d="note" value="${esc(x.note)}" placeholder="One line to convince the group" maxlength="140"></label>
     </div>`,
     onSubmit: (x) => { state.activities.push({ id: uid(), emoji: x.emoji.trim(), title: x.title.trim(), note: x.note.trim(), votes: [], custom: true }); commit(); toast('Idea added'); },
@@ -1399,7 +1302,7 @@ function expenseSheet(e) {
         : `<div class="split-rows">${gs.map((g) => `<div class="split-row" data-key="sr-${g.id}">${gchip(g, ps.includes(g.id), `data-action="dToggle" data-field="participants" data-v="${g.id}"`)}
             <span class="money-input">${x.mode === 'amount' ? `<span class="cur">${esc(cur())}</span>` : ''}<input class="input" inputmode="decimal" data-d="custom.${g.id}" value="${esc(x.custom[g.id] || '')}" placeholder="${x.mode === 'percent' ? '%' : '0'}" ${ps.includes(g.id) ? '' : 'disabled'} aria-label="${esc(g.name)} share" style="${x.mode === 'percent' ? 'padding-left:13px' : ''}"></span></div>`).join('')}</div>`;
       return `<div class="form-grid">
-        <label class="field full"><span>What was it?</span><input class="input" data-d="desc" value="${esc(x.desc)}" placeholder="e.g. Dinner at Da Enzo" maxlength="90" autofocus></label>
+        <label class="field full"><span>What was it?</span><input class="input" data-d="desc" value="${esc(x.desc)}" placeholder="${esc(S.phExpense)}" maxlength="90" autofocus></label>
         <label class="field"><span>Amount</span><span class="money-input"><span class="cur">${esc(cur())}</span><input class="input" inputmode="decimal" data-d="amount" value="${esc(x.amount)}" placeholder="0.00"></span></label>
         <label class="field"><span>Paid by</span><select class="select" data-d="paidBy">${guestOptions(x.paidBy)}</select></label>
         <label class="field"><span>Category</span><select class="select" data-d="category">${[...CATS, ...(x.category === 'settlement' ? [SETTLE_CAT] : [])].map((c) => `<option value="${c.id}" ${x.category === c.id ? 'selected' : ''}>${c.emoji} ${c.label}</option>`).join('')}</select></label>
@@ -1435,7 +1338,7 @@ function bookingSheet(b) {
     submitLabel: b ? 'Save' : 'Add booking',
     valid: (x) => x.title.trim(),
     body: (x) => `<div class="form-grid">
-      <label class="field full"><span>What needs booking?</span><input class="input" data-d="title" value="${esc(x.title)}" placeholder="e.g. Dinner at Roscioli" maxlength="100" autofocus></label>
+      <label class="field full"><span>What needs booking?</span><input class="input" data-d="title" value="${esc(x.title)}" placeholder="${esc(S.phBooking)}" maxlength="100" autofocus></label>
       <label class="field"><span>Book by</span><input type="date" class="input" data-d="bookBy" value="${esc(x.bookBy)}"></label>
       <label class="field"><span>Who’s on it</span><select class="select" data-d="assignee">${guestOptions(x.assignee, 'Unassigned')}</select></label>
       <label class="field"><span>Cost</span><span class="money-input"><span class="cur">${esc(cur())}</span><input class="input" inputmode="decimal" data-d="cost" value="${esc(x.cost)}" placeholder="0"></span></label>
@@ -1466,7 +1369,7 @@ function dreamSheet(dr) {
     submitLabel: dr ? 'Save' : 'Pin it',
     valid: (x) => x.title.trim(),
     body: (x) => `<div class="form-grid">
-      <label class="field full"><span>Place or idea</span><input class="input" data-d="title" value="${esc(x.title)}" placeholder="e.g. Sunset aperitivo at Terrazza Borromini" maxlength="90" autofocus></label>
+      <label class="field full"><span>Place or idea</span><input class="input" data-d="title" value="${esc(x.title)}" placeholder="${esc(S.phDream)}" maxlength="90" autofocus></label>
       <label class="field full"><span>Note</span><input class="input" data-d="note" value="${esc(x.note)}" placeholder="Why it’s on the board" maxlength="160"></label>
       <div class="field full"><span>Kind</span><div class="gchips">${DREAM_KINDS.map((k) => `<button type="button" class="gchip" style="--c:var(--sage-deep);padding-left:12px" aria-pressed="${x.kind === k.id}" data-action="dSet" data-field="kind" data-v="${k.id}">${k.emoji} ${k.label}</button>`).join('')}</div></div>
       <label class="field full"><span>Link <small class="faint">(optional)</small></span><input class="input" type="url" inputmode="url" data-d="link" value="${esc(x.link)}" placeholder="Paste a TikTok, Instagram or Google Maps link" maxlength="500"></label>
@@ -1506,9 +1409,9 @@ function dreamToPlanSheet(dr) {
    ========================================================================== */
 function exportData() {
   flush();
-  const payload = { app: 'booked-and-busy', edition: 'rome', schema: SCHEMA, exportedAt: new Date().toISOString(), data: state };
+  const payload = { app: 'booked-and-busy', edition: CITY.id, schema: SCHEMA, exportedAt: new Date().toISOString(), data: state };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-  const slug = (state.trip.name || 'rome-trip').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'rome-trip';
+  const slug = (state.trip.name || `${CITY.id}-trip`).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || `${CITY.id}-trip`;
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `${slug}-${isoOf(new Date())}.json`;
@@ -1553,7 +1456,7 @@ function resetMenu() {
     title: 'Start over?',
     body: () => `<p class="muted" style="margin-bottom:14px">Tip: download a copy first if there’s anything you want to keep. Either way you can undo right after.</p>
       <div class="stack" style="gap:10px">
-        <button type="button" class="card lift" style="text-align:left;font:inherit;color:inherit" data-action="doReset" data-v="blank"><b style="font:600 18px var(--f-display)">Blank trip</b><p class="muted" style="font-size:13.5px;margin-top:4px">Clears the sample travelers, plans, money and journal. Keeps the Rome ideas and booking tips so you’re not starting from zero.</p></button>
+        <button type="button" class="card lift" style="text-align:left;font:inherit;color:inherit" data-action="doReset" data-v="blank"><b style="font:600 18px var(--f-display)">Blank trip</b><p class="muted" style="font-size:13.5px;margin-top:4px">Clears the sample travelers, plans, money and journal. Keeps the ${CITY.name} ideas and booking tips so you’re not starting from zero.</p></button>
         <button type="button" class="card lift" style="text-align:left;font:inherit;color:inherit" data-action="doReset" data-v="sample"><b style="font:600 18px var(--f-display)">Sample trip</b><p class="muted" style="font-size:13.5px;margin-top:4px">Bring back the example trip to see how everything works.</p></button>
       </div>`,
   });
@@ -1577,7 +1480,7 @@ function toast(msg, opts = {}) {
 function confetti(fromEl) {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const r = fromEl ? fromEl.getBoundingClientRect() : { left: innerWidth / 2, top: innerHeight / 2, width: 0, height: 0 };
-  const colors = ['#39B8AC', '#E7AF3F', '#536C52', '#2F3D33', '#F3E5CA', '#8FD0C8'];
+  const colors = CITY.confettiColors;
   for (let i = 0; i < 26; i++) {
     const c = document.createElement('i');
     c.className = 'confetti';
@@ -1813,14 +1716,7 @@ window.addEventListener('storage', (e) => {
    Paste your Firebase web config into BB_FIREBASE to turn it on.
    Leave it as null and the planner works in a single browser (no sync).
    ========================================================================== */
-const BB_FIREBASE = {
-  apiKey: "AIzaSyBmNY37q_keGIEHPoO23CdY5BVSO9KYRNs",
-  authDomain: "booked-and-busy-d265f.firebaseapp.com",
-  projectId: "booked-and-busy-d265f",
-  storageBucket: "booked-and-busy-d265f.firebasestorage.app",
-  messagingSenderId: "1094494722831",
-  appId: "1:1094494722831:web:4d5b414c82e3564358fc7a",
-};
+const BB_FIREBASE = CITY.firebase;
 const FIREBASE_VERSION = '12.19.0';
 const USE_MOCK = !BB_FIREBASE && (() => { try { return new URLSearchParams(location.search).has('mock'); } catch (e) { return false; } })();
 const SYNC_ENABLED = !!BB_FIREBASE || USE_MOCK;
@@ -1917,7 +1813,7 @@ async function firebaseBackend() {
     }),
   };
 }
-/** Test backend (add ?mock to the URL with no Firebase config): syncs tabs in one browser. Access code: ROMA. */
+/** Test backend (add ?mock to the URL with no Firebase config): syncs tabs in one browser. Access code: CITY.mockCode. */
 function mockBackend() {
   const key = (id) => 'bookedBusy:mock:' + id;
   const read = (id) => { try { return JSON.parse(localStorage.getItem(key(id)) || 'null'); } catch (e) { return null; } };
@@ -1929,7 +1825,7 @@ function mockBackend() {
   return {
     async create(id, p) {
       await wait();
-      if (p.code !== 'ROMA') { const e = new Error('permission-denied'); e.code = 'permission-denied'; throw e; }
+      if (p.code !== CITY.mockCode) { const e = new Error('permission-denied'); e.code = 'permission-denied'; throw e; }
       localStorage.setItem(key(id), JSON.stringify(p));
     },
     subscribe(id, cb) { subs.set(id, cb); notify(id); return () => subs.delete(id); },
@@ -2133,11 +2029,11 @@ function showStart() {
     <div class="wordmark">${LOGO_SVG}</div>
     <div class="tag">everyone on the same page</div>
     <form id="startForm" novalidate>
-      <label class="field"><span>Trip name</span><input class="input" name="name" value="Our Rome Trip" maxlength="80"></label>
+      <label class="field"><span>Trip name</span><input class="input" name="name" value="${esc(S.blankTripName)}" maxlength="80"></label>
       <label class="field"><span>Your name</span><input class="input" name="me" placeholder="e.g. Maya" maxlength="60" autocomplete="given-name"></label>
       <label class="field"><span>Access code <small class="faint">(from your download)</small></span><input class="input" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
       <div class="opt" role="radiogroup" aria-label="Start from">
-        <label><input type="radio" name="from" value="blank" checked><b>Blank trip</b>Keeps the Rome ideas and booking tips</label>
+        <label><input type="radio" name="from" value="blank" checked><b>Blank trip</b>Keeps the ${CITY.name} ideas and booking tips</label>
         <label><input type="radio" name="from" value="sample"><b>Sample trip</b>A filled-in example to explore</label>
       </div>
       <div class="err" id="startErr" role="alert"></div>
@@ -2152,7 +2048,7 @@ async function onStartSubmit(e) {
   e.stopPropagation();
   const f = e.target;
   const fd = Object.fromEntries(new FormData(f));
-  const name = (fd.name || '').trim() || 'Our Rome Trip';
+  const name = (fd.name || '').trim() || S.blankTripName;
   const me = (fd.me || '').trim();
   const code = (fd.code || '').trim();
   const err = $('#startErr');
@@ -2168,7 +2064,7 @@ async function onStartSubmit(e) {
     st.trip.name = name;
     const g = addGuestTo(st, me);
     const id = newTripId();
-    await SYNC.api.create(id, { code, edition: 'rome', rev: 1, data: clone(st) });
+    await SYNC.api.create(id, { code, edition: CITY.id, rev: 1, data: clone(st) });
     try { localStorage.setItem(ME_KEY + id, g.id); } catch (x) { /* ignore */ }
     history.replaceState(null, '', tripLink(id));
     ui.tab = 'home';

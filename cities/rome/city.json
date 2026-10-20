@@ -1,0 +1,159 @@
+{
+  "id": "rome",
+  "name": "Rome",
+  "localName": "Roma",
+  "mockCode": "ROMA",
+  "firebase": {
+    "apiKey": "AIzaSyBmNY37q_keGIEHPoO23CdY5BVSO9KYRNs",
+    "authDomain": "booked-and-busy-d265f.firebaseapp.com",
+    "projectId": "booked-and-busy-d265f",
+    "storageBucket": "booked-and-busy-d265f.firebasestorage.app",
+    "messagingSenderId": "1094494722831",
+    "appId": "1:1094494722831:web:4d5b414c82e3564358fc7a"
+  },
+  "fonts": [
+    ["Fraunces", 500, "normal", "fraunces-latin-500-normal.woff2"],
+    ["Fraunces", 600, "normal", "fraunces-latin-600-normal.woff2"],
+    ["Fraunces", 500, "italic", "fraunces-latin-500-italic.woff2"],
+    ["DM Sans", 400, "normal", "dm-sans-latin-400-normal.woff2"],
+    ["DM Sans", 500, "normal", "dm-sans-latin-500-normal.woff2"],
+    ["DM Sans", 700, "normal", "dm-sans-latin-700-normal.woff2"],
+    ["Caveat", 600, "normal", "caveat-latin-600-normal.woff2"]
+  ],
+
+  "strings": {
+    "blankTripName": "Our Rome Trip",
+    "packNote": "Churches and the Vatican require covered shoulders and knees.",
+    "phPlan": "e.g. Aperitivo at a rooftop bar",
+    "phIdea": "e.g. Vespa tour at night",
+    "phExpense": "e.g. Dinner at Da Enzo",
+    "phBooking": "e.g. Dinner at Roscioli",
+    "phDream": "e.g. Sunset aperitivo at Terrazza Borromini"
+  },
+
+  "tabs": [
+    { "id": "home", "label": "Home", "short": "Home", "emoji": "🏛️" },
+    { "id": "guests", "label": "Guest List", "short": "Guests", "emoji": "💌" },
+    { "id": "dashboard", "label": "Trip Dashboard", "short": "Today", "emoji": "☀️" },
+    { "id": "vote", "label": "Group Picks", "short": "Picks", "emoji": "💘" },
+    { "id": "itinerary", "label": "Itinerary", "short": "Plan", "emoji": "🗓️" },
+    { "id": "budget", "label": "Budget & Split", "short": "Budget", "emoji": "💶" },
+    { "id": "bookings", "label": "Booking Tracker", "short": "Bookings", "emoji": "🎟️" },
+    { "id": "packing", "label": "Packing List", "short": "Packing", "emoji": "🧳" },
+    { "id": "dream", "label": "Dream Board", "short": "Dream", "emoji": "✨" },
+    { "id": "memories", "label": "Memories", "short": "Memories", "emoji": "📸" }
+  ],
+  "bottomTabs": ["home", "itinerary", "vote", "budget"],
+
+  "categories": [
+    { "id": "stay", "label": "Accommodation", "emoji": "🛏️", "color": "#2F3D33" },
+    { "id": "food", "label": "Food & drink", "emoji": "🍝", "color": "#E7AF3F" },
+    { "id": "activities", "label": "Activities", "emoji": "🎟️", "color": "#39B8AC" },
+    { "id": "transport", "label": "Transport", "emoji": "🚆", "color": "#C0785A" },
+    { "id": "other", "label": "Other", "emoji": "🛍️", "color": "#D2B48C" }
+  ],
+  "guestColors": ["#39B8AC", "#536C52", "#B8862A", "#2F3D33", "#23877E", "#7D8B6A", "#C9A55A", "#5F8C8C", "#8FA88E", "#9A8A5A"],
+  "confettiColors": ["#39B8AC", "#E7AF3F", "#536C52", "#2F3D33", "#F3E5CA", "#8FD0C8"],
+
+  "packCityCat": "rome",
+  "packCats": [
+    { "id": "clothing", "label": "Clothing", "emoji": "👗" },
+    { "id": "toiletries", "label": "Toiletries", "emoji": "🧴" },
+    { "id": "documents", "label": "Documents", "emoji": "🛂" },
+    { "id": "misc", "label": "Misc", "emoji": "🔌" },
+    { "id": "rome", "label": "Rome-specific", "emoji": "🍋" }
+  ],
+  "packTemplate": {
+    "clothing": ["Outfits for every day (+1 spare)", "Rooftop dinner outfit", "Light layer for evenings", "Sunglasses"],
+    "toiletries": ["Travel-size SPF", "Blister plasters", "Meds + prescriptions", "Hair tools (dual voltage!)"],
+    "documents": ["Passport (valid 3+ months after the trip)", "Check entry rules for your passport (ETIAS/EES)", "Travel insurance details", "Offline copies of every booking"],
+    "misc": ["EU plug adapter (Type C / F / L)", "Portable charger", "Small cross-body bag that zips"],
+    "rome": ["Shoulders & knees coverage for the Vatican + churches", "Comfortable shoes for cobblestones", "Light scarf to cover up in churches", "Refillable bottle for the nasoni fountains", "Coins for the Trevi Fountain", "A little cash (€) for cafés & tips"]
+  },
+
+  "dreamKinds": [
+    { "id": "see", "label": "Go see", "emoji": "👀", "bg": "#E5EFDF" },
+    { "id": "eat", "label": "Eat & drink", "emoji": "🍨", "bg": "#F3E3CC" },
+    { "id": "daytrip", "label": "Day trip", "emoji": "🚆", "bg": "#DCE8E3" },
+    { "id": "shop", "label": "Shop", "emoji": "🛍️", "bg": "#F3E5CA" },
+    { "id": "night", "label": "Night out", "emoji": "🍸", "bg": "#E6ECDF" }
+  ],
+
+  "sample": {
+    "tripName": "Roman Holiday",
+    "startInDays": 45,
+    "nights": 4,
+    "budget": 500000,
+    "guests": [
+      { "name": "Sofia Romano", "diet": "Vegetarian" },
+      { "name": "Maya Chen", "diet": "Tree-nut allergy (carries an EpiPen)" },
+      { "name": "Jess Alvarez", "arriveDay": 1 },
+      { "name": "Priya Nair", "diet": "No shellfish" },
+      { "name": "Lauren Brooks", "confirmed": false }
+    ],
+    "packedRate": [0.35, 0.8, 0.1, 0.55, 0],
+    "activities": [
+      { "id": "a1", "emoji": "🏛️", "title": "Colosseum + Roman Forum underground tour", "note": "Arena floor and the hypogeum tunnels where gladiators waited.", "votes": [0, 1, 2, 3, 4] },
+      { "id": "a2", "emoji": "🎨", "title": "Vatican Museums & Sistine Chapel (timed entry)", "note": "First slot of the day, before the tour groups. Cover shoulders + knees.", "votes": [0, 1, 3, 4] },
+      { "id": "a3", "emoji": "🗿", "title": "Borghese Gallery", "note": "Bernini marble that looks like skin. Strict 2-hour timed slots.", "votes": [1, 3] },
+      { "id": "a4", "emoji": "🍝", "title": "Hands-on pasta & tiramisù class", "note": "Fettuccine, cacio e pepe, and a dessert we made ourselves.", "votes": [0, 1, 2, 3, 4] },
+      { "id": "a5", "emoji": "🍷", "title": "Trastevere evening food tour", "note": "Supplì, carbonara, and wine bars down ivy-covered lanes.", "votes": [0, 2, 4] },
+      { "id": "a6", "emoji": "🍹", "title": "Aperol-hour terrace crawl", "note": "Three terraces, three spritzes, golden hour.", "votes": [0, 1, 2, 4] },
+      { "id": "a7", "emoji": "🌋", "title": "Day trip to Pompeii", "note": "High-speed train to Naples, then the ruins. Long, unforgettable day.", "votes": [1, 3] },
+      { "id": "a8", "emoji": "⛲", "title": "Day trip to Tivoli (Villa d'Este)", "note": "Renaissance fountain gardens about an hour outside the city.", "votes": [3] },
+      { "id": "a9", "emoji": "🪙", "title": "Trevi Fountain coin toss at sunrise", "note": "Same fountain, zero crowds — it is a different place at 7am.", "votes": [0, 1, 2, 3] },
+      { "id": "a10", "emoji": "🍋", "title": "Campo de' Fiori market morning", "note": "Produce stalls, limoncello samples, and a caffè standing at the bar.", "votes": [2, 4] },
+      { "id": "a11", "emoji": "👠", "title": "Spanish Steps + Via Condotti shopping", "note": "Window-shop the big names, then gelato on the steps (no sitting!).", "votes": [0, 2, 4] },
+      { "id": "a12", "emoji": "🌅", "title": "Rooftop dinner with a Colosseum view", "note": "The big group dinner. Dress up.", "votes": [0, 1, 2, 3, 4] },
+      { "id": "a13", "emoji": "🚲", "title": "Bike the Appian Way", "note": "The ancient road south of the city: catacombs, aqueducts, umbrella pines.", "votes": [1] }
+    ],
+    "bookings": [
+      { "id": "b1", "title": "Vatican Museums & Sistine Chapel — timed entry", "bookByDay": -42, "assignee": 1, "booked": false, "cost": 0, "ref": "", "food": false,
+        "tip": "Tickets open about 60 days ahead on the official Vatican Museums site and the early slots go first in busy months. Book there, not through resellers — and pack shoulder & knee coverage." },
+      { "id": "b2", "title": "Colosseum underground + arena tour", "bookByDay": -35, "assignee": 3, "booked": false, "cost": 0, "ref": "", "food": false,
+        "tip": "Underground (hypogeum) and arena-floor tickets are capacity-limited and released in batches on the official Colosseum site, typically around a month ahead. Set a reminder — they can sell out within hours in peak season." },
+      { "id": "b6", "title": "Rome → Naples high-speed trains (Pompeii day)", "bookByDay": -38, "assignee": 4, "booked": false, "cost": 0, "ref": "", "food": false,
+        "tip": "Frecciarossa and Italo fares work like airfares: cheaper the earlier you book. From Naples, the Circumvesuviana local train runs to Pompei Scavi — buy Pompeii site tickets online to skip the queue." },
+      { "id": "b3", "title": "Borghese Gallery", "bookByDay": -21, "assignee": 4, "booked": false, "cost": 0, "ref": "", "food": false,
+        "tip": "Advance booking is required: entry is by timed 2-hour slot and capacity is limited. Weekend slots can sell out weeks ahead. Bags must be checked, so travel light." },
+      { "id": "b4", "title": "Rooftop dinner — Colosseum-view terrace", "bookByDay": -14, "assignee": 2, "booked": false, "cost": 0, "ref": "", "food": true,
+        "tip": "Terrace tables for groups of 5+ go first. Ask for the terrace specifically and expect a set menu or card deposit for larger groups. Book around sunset for the photos." },
+      { "id": "b5", "title": "Pasta & tiramisù cooking class", "bookByDay": -28, "assignee": 1, "booked": true, "cost": 42500, "ref": "PASTA-5582", "food": true,
+        "tip": "Small-group classes often cap around 10–12 people, so a group of 5 can fill half a class. Book early and send dietary notes ahead of time." }
+    ],
+    "itinerary": [
+      { "day": 0, "time": "14:00", "title": "Check in — apartment in Monti", "note": "Keys from the café downstairs. 3 bedrooms, 2 baths, one very good balcony." },
+      { "day": 0, "time": "18:00", "title": "Aperol-hour terrace crawl", "note": "Start on the rooftop, end wherever the night takes us.", "activityId": "a6" },
+      { "day": 0, "time": "20:30", "title": "Welcome dinner in Trastevere", "note": "Walk-in trattoria — early in the week you rarely need a reservation." },
+      { "day": 1, "time": "09:00", "title": "Colosseum + Roman Forum underground tour", "note": "Be at the meeting point 15 min early with ID matching the tickets.", "activityId": "a1", "bookingId": "b2" },
+      { "day": 1, "time": "13:30", "title": "Lunch + gelato in Monti", "note": "" },
+      { "day": 1, "time": "17:00", "title": "Pasta & tiramisù class", "note": "Aprons provided. Arrive 10 minutes early.", "activityId": "a4", "bookingId": "b5" },
+      { "day": 2, "time": "08:30", "title": "Vatican Museums & Sistine Chapel", "note": "Shoulders & knees covered! No photos in the Sistine Chapel.", "activityId": "a2", "bookingId": "b1" },
+      { "day": 2, "time": "14:00", "title": "Afternoon rest", "note": "" },
+      { "day": 2, "time": "19:30", "title": "Rooftop dinner with a Colosseum view", "note": "Dress code: smart casual.", "activityId": "a12", "bookingId": "b4" },
+      { "day": 3, "time": "07:45", "title": "Train to Naples → Pompeii", "note": "From Roma Termini. Water + sunscreen — there is very little shade in the ruins.", "activityId": "a7", "bookingId": "b6" },
+      { "day": 3, "time": "19:30", "title": "Pizza night in", "note": "Easy night in after a long day." },
+      { "day": 4, "time": "09:30", "title": "Campo de' Fiori market morning", "note": "Last cornetti + souvenir limoncello.", "activityId": "a10" },
+      { "day": 4, "time": "12:00", "title": "Check out + airport transfer", "note": "Leonardo Express from Termini, or pre-book a van for 5 with bags." }
+    ],
+    "expenses": [
+      { "id": "e1", "desc": "Apartment in Monti (4 nights)", "amount": 185000, "category": "stay", "daysAgo": 20, "paidBy": 1, "mode": "even", "participants": [0, 1, 2, 3, 4], "custom": {} },
+      { "id": "e2", "desc": "Pasta class deposit", "amount": 42500, "category": "activities", "daysAgo": 9, "paidBy": 1, "mode": "even", "participants": [0, 1, 2, 3, 4], "custom": {} },
+      { "id": "e3", "desc": "Train tickets to Naples (4 of us)", "amount": 23000, "category": "transport", "daysAgo": 6, "paidBy": 4, "mode": "percent", "participants": [1, 2, 3, 4], "custom": { "1": 25, "2": 25, "3": 25, "4": 25 } },
+      { "id": "e4", "desc": "Snacks & supplies for the apartment", "amount": 4600, "category": "other", "daysAgo": 3, "paidBy": 3, "mode": "amount", "participants": [1, 2, 3, 4], "custom": { "1": 1600, "2": 1000, "3": 1000, "4": 1000 } }
+    ],
+    "dream": [
+      { "id": "d1", "title": "Aventine Keyhole", "note": "Peek through the Knights of Malta keyhole — St. Peter's dome, perfectly framed.", "kind": "see", "rot": -2 },
+      { "id": "d2", "title": "Gelato showdown", "note": "Giolitti vs. Fatamorgana. Try both and pick a favorite.", "kind": "eat", "rot": 1.5 },
+      { "id": "d3", "title": "Orvieto day trip", "note": "Hilltop town, striped cathedral, a glass of the local white. ~1 hr by train.", "kind": "daytrip", "rot": -1 },
+      { "id": "d4", "title": "Vintage on Via del Governo Vecchio", "note": "Second-hand designer finds a few steps from Piazza Navona.", "kind": "shop", "rot": 2 },
+      { "id": "d5", "title": "Sunset at the Pincio Terrace", "note": "Free, golden, and right above Piazza del Popolo.", "kind": "see", "rot": -2.5 },
+      { "id": "d6", "title": "Late-night jazz in Trastevere", "note": "For the night nobody wants to go home.", "kind": "night", "rot": 1 }
+    ],
+    "journal": [
+      { "id": "j1", "day": null, "title": "The night we booked it",
+        "text": "Group chat hit 400 messages deciding between Monti and Trastevere. Maya made a spreadsheet. We ignored the spreadsheet. We picked the apartment with the balcony.",
+        "favorite": "Sofia screaming \"ROMA!!\" in a voice note at 1am." }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+/* Rome theme: cream base + Trevi-inspired teal accents. */
+:root {
+  --cream: #FAF2E2;
+  --cream-2: #F3E5CA;
+  --paper: #FFFBF2;
+  --mint: #DCEFEA;
+  --mint-2: #C6E6DF;
+  --sage: #39B8AC;
+  --sage-deep: #536C52;
+  --ochre: #23877E;
+  --ochre-soft: #F7E6BC;
+  --espresso: #2F3D33;
+  --ink: #2F3D33;
+  --ink-2: rgba(47, 61, 51, .72);
+  --ink-3: rgba(47, 61, 51, .5);
+  --line: rgba(47, 61, 51, .13);
+  --line-2: rgba(47, 61, 51, .22);
+  --red: #B4432E;
+  --red-soft: #F7DDD5;
+  --amber: #B8862A;
+  --amber-soft: #F8E8C6;
+  --green-soft: var(--mint);
+  --f-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --f-body: "DM Sans", "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
+  --shadow-1: 0 1px 0 rgba(47,61,51,.04), 0 2px 6px rgba(47,61,51,.06);
+  --shadow-2: 0 2px 0 rgba(47,61,51,.04), 0 10px 26px -8px rgba(47,61,51,.22);
+  --shadow-3: 0 24px 60px -20px rgba(47,61,51,.45);
+}
