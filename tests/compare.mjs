@@ -4,10 +4,11 @@
 import { chromium } from 'playwright';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const [beforePath, afterPath, outDir = 'tests/out'] = process.argv.slice(2);
+rmSync(outDir, { recursive: true, force: true });
 mkdirSync(outDir, { recursive: true });
 
 // Same random numbers and clock in both runs, so seed data (ids, dates) match.
@@ -83,7 +84,9 @@ for (const [label, viewport, query, live] of [
     b = await capture(browser, afterPath, false, viewport, query);
   }
   for (const name of Object.keys(a)) {
-    const domSame = a[name].dom === b[name].dom;
+    // whitespace-only differences don't change what's shown (the pixel check backs this up)
+    const squash = (h) => h.replace(/\s+/g, ' ').replace(/> </g, '><');
+    const domSame = squash(a[name].dom) === squash(b[name].dom);
     const ia = PNG.sync.read(a[name].png), ib = PNG.sync.read(b[name].png);
     let px = -1;
     if (ia.width === ib.width && ia.height === ib.height) {

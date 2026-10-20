@@ -1,0 +1,299 @@
+{
+  "id": "paris",
+  "name": "Paris",
+  "localName": "Paris",
+  "mockCode": "PARIS",
+  "firebase": null,
+  "fonts": [
+    ["Playfair Display", 500, "normal", "playfair-display-latin-500-normal.woff2"],
+    ["Playfair Display", 600, "normal", "playfair-display-latin-600-normal.woff2"],
+    ["Playfair Display", 500, "italic", "playfair-display-latin-500-italic.woff2"],
+    ["DM Sans", 400, "normal", "dm-sans-latin-400-normal.woff2"],
+    ["DM Sans", 500, "normal", "dm-sans-latin-500-normal.woff2"],
+    ["DM Sans", 700, "normal", "dm-sans-latin-700-normal.woff2"],
+    ["Caveat", 600, "normal", "caveat-latin-600-normal.woff2"]
+  ],
+
+  "strings": {
+    "blankTripName": "Our Paris Trip",
+    "packNote": "Paper metro tickets are gone, so everyone needs a Navigo Easy card or the RATP app.",
+    "phPlan": "e.g. Apéro on the Canal Saint-Martin",
+    "phIdea": "e.g. Sunset picnic on the Seine",
+    "phExpense": "e.g. Dinner at a Marais bistro",
+    "phBooking": "e.g. Dinner at a bistro in Saint-Germain",
+    "phDream": "e.g. Shakespeare and Company bookshop",
+    "voteLede": "Ideas to vote on. Tap “I’m in” on the ones you want and the group favorites rise to the top. Got your own? Suggest it."
+  },
+
+  "tabs": [
+    { "id": "home", "label": "Home", "short": "Home", "emoji": "✨" },
+    { "id": "guests", "label": "Guest List", "short": "Guests", "emoji": "💌" },
+    { "id": "dashboard", "label": "Trip Dashboard", "short": "Today", "emoji": "☀️" },
+    { "id": "vote", "label": "Group Picks", "short": "Picks", "emoji": "🥂" },
+    { "id": "itinerary", "label": "Itinerary", "short": "Plan", "emoji": "🗓️" },
+    { "id": "budget", "label": "Budget & Split", "short": "Budget", "emoji": "💶" },
+    { "id": "bookings", "label": "Booking Tracker", "short": "Bookings", "emoji": "🎟️" },
+    { "id": "packing", "label": "Packing List", "short": "Packing", "emoji": "🧳" },
+    { "id": "pocket", "label": "Pocket Paris", "short": "Pocket", "emoji": "💬" },
+    { "id": "dream", "label": "Dream Board", "short": "Dream", "emoji": "💭" },
+    { "id": "memories", "label": "Memories", "short": "Memories", "emoji": "📸" }
+  ],
+  "bottomTabs": ["home", "itinerary", "vote", "budget"],
+  "tabIcons": {
+    "home": "eiffel-tower",
+    "guests": "key",
+    "dashboard": "lamp",
+    "vote": "wine-glass",
+    "itinerary": "metro-sign",
+    "budget": "croissant",
+    "bookings": "cafe-table",
+    "packing": "fan",
+    "pocket": "phrasebook",
+    "dream": "macaron",
+    "memories": "postcard"
+  },
+
+  "categories": [
+    { "id": "stay", "label": "Accommodation", "emoji": "🛏️", "color": "#5C3127" },
+    { "id": "food", "label": "Food & drink", "emoji": "🥐", "color": "#B9866F" },
+    { "id": "activities", "label": "Activities", "emoji": "🎟️", "color": "#949FB3" },
+    { "id": "transport", "label": "Transport", "emoji": "🚇", "color": "#5E6A80" },
+    { "id": "other", "label": "Other", "emoji": "🛍️", "color": "#E8B7B8" }
+  ],
+  "guestColors": ["#8E5B48", "#5E6A80", "#B9866F", "#5C3127", "#949FB3", "#B88486", "#7A6A5F", "#A7765F", "#6E7F95", "#9C7B6B"],
+  "confettiColors": ["#949FB3", "#E8B7B8", "#B9866F", "#5C3127", "#F3E3CC", "#C9CFDA"],
+
+  "packCityCat": "paris",
+  "packCats": [
+    { "id": "clothing", "label": "Clothing", "emoji": "👗" },
+    { "id": "toiletries", "label": "Toiletries", "emoji": "🧴" },
+    { "id": "documents", "label": "Documents", "emoji": "🛂" },
+    { "id": "misc", "label": "Misc", "emoji": "🔌" },
+    { "id": "paris", "label": "Paris-specific", "emoji": "🥖" }
+  ],
+  "packTemplate": {
+    "clothing": ["Outfits for every day (+1 spare)", "Light layer for evenings", "Sunglasses"],
+    "toiletries": ["Travel-size SPF", "Blister plasters", "Meds + prescriptions", "Hair tools (dual voltage!)"],
+    "documents": ["Passport (valid 3+ months after the trip)", "Check entry rules for your passport (ETIAS/EES)", "Travel insurance details", "Offline copies of every booking"],
+    "misc": ["EU plug adapter (Type C / E)", "Portable charger"],
+    "paris": ["Navigo Easy card or the RATP app set up (paper metro tickets no longer work)", "Comfy-but-cute walking shoes", "Zipped crossbody bag (pickpockets work busy landmarks and the metro)", "A slightly dressier outfit for dinners"]
+  },
+
+  "dreamKinds": [
+    { "id": "see", "label": "Go see", "emoji": "👀", "bg": "#E1E4EA" },
+    { "id": "eat", "label": "Eat & drink", "emoji": "🥐", "bg": "#F2DEDC" },
+    { "id": "daytrip", "label": "Day trip", "emoji": "🚆", "bg": "#EFDCCB" },
+    { "id": "shop", "label": "Shop", "emoji": "🛍️", "bg": "#EAD3B6" },
+    { "id": "night", "label": "Night out", "emoji": "🥂", "bg": "#E6E1D9" }
+  ],
+
+  "bookLabels": {
+    "early": "Book early",
+    "yes": "Book ahead",
+    "recommended": "Booking recommended",
+    "free-timed": "Free timed reservation",
+    "no": "No booking needed"
+  },
+
+  "closures": [
+    { "venue": "The Louvre", "match": ["louvre"], "days": [2], "label": "on Tuesdays" },
+    { "venue": "Versailles", "match": ["versailles"], "days": [1], "label": "on Mondays" },
+    { "venue": "The Catacombs", "match": ["catacomb"], "days": [1], "label": "on Mondays" }
+  ],
+
+  "bookFirst": [
+    { "bookingId": "pb1", "windowDays": 60, "why": "Summit lift slots open about 60 days out and the good times go fast." },
+    { "bookingId": "pb2", "windowDays": 90, "why": "Timed tickets sell out, and it’s closed Tuesdays, so plan around that." }
+  ],
+
+  "gettingAround": {
+    "title": "Getting around",
+    "tips": [
+      { "icon": "metro-sign", "emoji": "🚇", "head": "Get a Navigo Easy card", "text": "€2, or use the RATP app. Paper tickets are gone. One card per person." },
+      { "emoji": "🧳", "head": "From the airport", "text": "CDG is the RER B. Orly is Metro 14. Both need the €14 airport ticket." },
+      { "icon": "lamp", "emoji": "🚶", "head": "Walk it", "text": "Central Paris is very walkable. Vélib’ is the city bike share." },
+      { "emoji": "🚶‍♀️", "head": "Escalator etiquette", "text": "Stand on the right, walk on the left." }
+    ]
+  },
+
+  "budget": {
+    "tipping": {
+      "default": 0,
+      "note": "Service is included in France (service compris), so tipping is optional. Rounding up for great service is a nice extra."
+    },
+    "touristTax": {
+      "title": "Tourist tax",
+      "intro": "Paris charges a small tax per adult, per night. Your hotel or rental usually collects it. Pick your stay type to estimate it.",
+      "default": "hotel3",
+      "rates": [
+        { "id": "hotel2", "label": "2-star hotel", "amount": 325 },
+        { "id": "hotel3", "label": "3-star hotel", "amount": 553 },
+        { "id": "hotel4", "label": "4-star hotel", "amount": 845 },
+        { "id": "hotel5", "label": "5-star hotel", "amount": 1170 },
+        { "id": "palace", "label": "Palace", "amount": 1593 },
+        { "id": "rental", "label": "Rental / unclassified (most Airbnbs)", "pct": 5, "multiplier": 3.25, "cap": 1593 }
+      ],
+      "rentalNote": "Rentals and unclassified stays: 5% of the per-person nightly price, plus add-on taxes (× 3.25), capped at €15.93. Example: €60 a night per person ≈ €9.75 tax."
+    },
+    "priceGuide": {
+      "title": "Price guide",
+      "intro": "2026 estimates for one adult (non-EU visitor). Edit any price and the whole group sees it.",
+      "warning": "Prices change, so check before booking."
+    },
+    "prices": [
+      { "id": "eiffel-stairs", "label": "Eiffel Tower, stairs to 2nd floor", "amount": 1480 },
+      { "id": "eiffel-summit", "label": "Eiffel Tower, lift to summit", "amount": 3670 },
+      { "id": "louvre", "label": "Louvre", "amount": 3200 },
+      { "id": "sainte-chapelle", "label": "Sainte-Chapelle", "amount": 2200 },
+      { "id": "versailles", "label": "Versailles", "amount": 3000, "note": "About €25–35, depending on season" },
+      { "id": "orsay", "label": "Musée d’Orsay", "amount": 1700, "note": "About €17" },
+      { "id": "catacombs", "label": "Catacombs", "amount": 3100, "note": "About €31" },
+      { "id": "metro-single", "label": "Metro, single ride", "amount": 255 },
+      { "id": "metro-day", "label": "Metro, day pass", "amount": 1230 },
+      { "id": "metro-week", "label": "Metro, week pass", "amount": 3240 },
+      { "id": "airport", "label": "Airport ticket, each way", "amount": 1400 },
+      { "id": "navigo", "label": "Navigo Easy card", "amount": 200, "note": "One-time, per person" }
+    ]
+  },
+
+  "pocket": {
+    "title": "Pocket Paris",
+    "lede": "Phrases, customs and fun facts, sized for your phone.",
+    "lang": "fr-FR",
+    "phrases": {
+      "title": "Phrase guide", "short": "Phrases", "icon": "phrasebook", "emoji": "💬",
+      "intro": "Capital letters show the stressed part. Tap 🔊 to hear it.",
+      "items": [
+        { "say": "Bonjour", "sound": "bohn-ZHOOR", "use": "Hello. Every time you walk in somewhere." },
+        { "say": "Bonsoir", "sound": "bohn-SWAHR", "use": "Hello, in the evening." },
+        { "say": "S’il vous plaît", "sound": "seel voo PLEH", "use": "Please." },
+        { "say": "Merci (beaucoup)", "sound": "mair-SEE (boh-KOO)", "use": "Thank you (so much)." },
+        { "say": "Pardon", "sound": "par-DOHN", "use": "Sorry / excuse me, squeezing past." },
+        { "say": "Excusez-moi", "sound": "ex-koo-zay MWAH", "use": "Excuse me, getting someone’s attention." },
+        { "say": "Parlez-vous anglais ?", "sound": "par-lay voo ahn-GLEH", "use": "After bonjour, never instead of it." },
+        { "say": "Je parle un petit peu français", "sound": "zhuh parl uhn puh-TEE puh frahn-SEH", "use": "I speak a little French." },
+        { "say": "Une carafe d’eau, s’il vous plaît", "sound": "oon ka-RAHF doh", "use": "Free tap water at restaurants." },
+        { "say": "L’addition, s’il vous plaît", "sound": "lah-dee-SYOHN", "use": "The check, please." },
+        { "say": "Le service est compris ?", "sound": "luh ser-VEESS ay kohm-PREE", "use": "Is service included?" },
+        { "say": "Bonne journée / Bonne soirée", "sound": "bun zhoor-NAY / bun swah-RAY", "use": "Have a good day / evening." },
+        { "say": "Au revoir", "sound": "oh ruh-VWAHR", "use": "Goodbye." }
+      ]
+    },
+    "customs": {
+      "title": "Customs", "short": "Customs", "icon": "cafe-table", "emoji": "☕",
+      "items": [
+        { "head": "Say bonjour before anything else.", "text": "Entering a shop, café or bakery, or before asking a question." },
+        { "head": "Add “Madame” or “Monsieur” for extra politeness.", "text": "“Bonjour, Madame.”" },
+        { "head": "Meals are slow on purpose.", "text": "The check won’t come until you ask for it." },
+        { "head": "Inside voices.", "text": "Restaurants and the metro are noticeably quiet." },
+        { "head": "Tipping isn’t expected.", "text": "Service is included. Rounding up for great service is a nice extra." },
+        { "head": "August is quiet.", "text": "Many restaurants close for the whole month." },
+        { "head": "Dress is a little polished.", "text": "Comfortable is fine; head-to-toe athletic wear stands out." }
+      ]
+    },
+    "facts": {
+      "title": "Fun facts", "short": "Fun facts", "icon": "eiffel-tower", "emoji": "✨",
+      "items": [
+        { "head": "Built to come down", "text": "The Eiffel Tower was built for the 1889 World’s Fair and was meant to come down after about 20 years." },
+        { "head": "Why the Catacombs exist", "text": "18th-century cemeteries were overflowing, so bones were moved into old underground quarries." },
+        { "head": "Those long, straight boulevards", "text": "They come from Baron Haussmann’s 19th-century redesign, built so monuments sit at the end of the view." },
+        { "head": "Notre-Dame is back", "text": "It reopened on December 8, 2024, after the 2019 fire." },
+        { "head": "A city shaped like a snail", "text": "The 20 arrondissements (districts) spiral out from the center like a snail shell, so the number tells you roughly how central you are." }
+      ]
+    }
+  },
+
+  "sample": {
+    "tripName": "Bonjour, Paris",
+    "startInDays": 45,
+    "nights": 4,
+    "budget": 450000,
+    "guests": [
+      { "name": "Ava Thompson", "diet": "Vegetarian" },
+      { "name": "Noor Haddad", "diet": "No pork" },
+      { "name": "Grace Kim", "arriveDay": 1 },
+      { "name": "Elena Ruiz", "diet": "Gluten-free" },
+      { "name": "Hannah Okafor", "confirmed": false }
+    ],
+    "packedRate": [0.35, 0.8, 0.1, 0.55, 0],
+    "activities": [
+      { "id": "p1", "emoji": "🌇", "title": "Eiffel Tower summit", "note": "Lift all the way to the top. Summit slots go first.", "tags": ["Icons"], "book": "early", "votes": [0, 1, 2, 3] },
+      { "id": "p2", "emoji": "✨", "title": "Sparkle-hour picnic at Trocadéro or Champ de Mars", "note": "After dark the tower sparkles for five minutes every hour. Bring a blanket.", "tags": ["Icons", "Free"], "book": "no", "votes": [0, 1, 2, 3, 4] },
+      { "id": "p3", "emoji": "🖼️", "title": "Louvre", "note": "Pick two or three must-sees and a meeting spot. It’s enormous.", "tags": ["Art"], "book": "yes", "votes": [0, 1, 3, 4] },
+      { "id": "p4", "emoji": "🕰️", "title": "Musée d’Orsay", "note": "Impressionists in an old train station, plus the giant clock window.", "tags": ["Art"], "book": "yes", "votes": [0, 3] },
+      { "id": "p5", "emoji": "🪷", "title": "Musée de l’Orangerie (Monet’s water lilies)", "note": "The Water Lilies wrap around two oval rooms.", "tags": ["Art"], "book": "yes", "votes": [3] },
+      { "id": "p6", "emoji": "🕯️", "title": "Sainte-Chapelle stained glass", "note": "Walls of 13th-century stained glass. Best on a sunny day.", "tags": ["Art", "History"], "book": "yes", "votes": [1, 3] },
+      { "id": "p7", "emoji": "🌿", "title": "Musée Rodin sculpture garden", "note": "The Thinker, rose beds and a bench with your name on it.", "tags": ["Art", "Calm"], "book": "recommended", "votes": [3] },
+      { "id": "p8", "emoji": "⛪", "title": "Notre-Dame", "note": "Free to visit. Reserve a timed slot to skip the line.", "tags": ["History"], "book": "free-timed", "votes": [0, 1, 4] },
+      { "id": "p9", "emoji": "💀", "title": "Catacombs", "note": "Tunnels lined with bones, 20 meters underground.", "tags": ["Spooky", "History"], "book": "yes", "votes": [2, 4] },
+      { "id": "p10", "emoji": "👑", "title": "Versailles day trip", "note": "Hall of Mirrors, the gardens and the Trianon. A full day.", "tags": ["Day trip"], "book": "yes", "votes": [0, 1, 2, 3] },
+      { "id": "p11", "emoji": "🎨", "title": "Montmartre wander + Sacré-Cœur", "note": "Cobbled lanes, painters on Place du Tertre, and the view from the steps.", "tags": ["Neighborhoods"], "book": "no", "votes": [0, 1, 2, 3, 4] },
+      { "id": "p12", "emoji": "🧆", "title": "Le Marais shops + falafel lunch", "note": "Boutiques and vintage, then falafel on Rue des Rosiers.", "tags": ["Neighborhoods", "Food"], "book": "no", "votes": [0, 2, 4] },
+      { "id": "p13", "emoji": "🥂", "title": "Canal Saint-Martin aperitif", "note": "Drinks by the water with the locals at golden hour.", "tags": ["Neighborhoods"], "book": "no", "votes": [1, 2] },
+      { "id": "p14", "emoji": "🧺", "title": "Parc des Buttes-Chaumont picnic", "note": "Hilly park with a little temple on a cliff. Very local.", "tags": ["Local", "Free"], "book": "no", "votes": [2] },
+      { "id": "p15", "emoji": "🥖", "title": "Market morning", "note": "Cheese, fruit and flowers, then breakfast from the stalls.", "tags": ["Food"], "book": "no", "votes": [0, 3, 4] },
+      { "id": "p16", "emoji": "🧀", "title": "Cheese and wine tasting", "note": "Learn your Comté from your Brie with a guided tasting.", "tags": ["Food", "Bachelorette"], "book": "yes", "votes": [0, 1, 2, 3, 4] },
+      { "id": "p17", "emoji": "🥐", "title": "French cooking or pastry class", "note": "Macarons, croissants or a market-to-table lunch.", "tags": ["Food", "Bachelorette"], "book": "yes", "votes": [1, 3] },
+      { "id": "p18", "emoji": "⛵", "title": "Seine cruise (day or dinner)", "note": "See the monuments from the water. Go at dusk for the lights.", "tags": ["Icons", "Bachelorette"], "book": "recommended", "votes": [0, 1, 2, 4] },
+      { "id": "p19", "emoji": "🎭", "title": "Cabaret night", "note": "Feathers, sequins and a very French night out.", "tags": ["Bachelorette"], "book": "yes", "votes": [0, 2, 4] },
+      { "id": "p20", "emoji": "🩰", "title": "Opéra Garnier visit", "note": "Gilded staircases and a Chagall ceiling.", "tags": ["Glam", "History"], "book": "recommended", "votes": [1] },
+      { "id": "p21", "emoji": "👜", "title": "Vintage and secondhand shopping", "note": "Thrift and secondhand shops all over the city.", "tags": ["Shopping"], "book": "no", "votes": [2, 4] }
+    ],
+    "bookings": [
+      { "id": "pb1", "title": "Eiffel Tower", "lead": 60, "assignee": 1, "booked": false, "cost": 0, "ref": "", "food": false,
+        "tip": "Book 2+ months ahead: summit lift slots open about 60 days out. Stairs tickets also need advance booking. Buy only on toureiffel.paris or from authorized sellers." },
+      { "id": "pb2", "title": "Louvre", "lead": 42, "assignee": 0, "booked": true, "cost": 16000, "ref": "LV-20931", "food": false,
+        "tip": "Book as soon as your date is released, and at least 2–6 weeks ahead. Closed Tuesdays. Buy only on ticket.louvre.fr or from authorized sellers." },
+      { "id": "pb3", "title": "Versailles", "lead": 28, "assignee": 3, "booked": false, "cost": 0, "ref": "", "food": false,
+        "tip": "Book several weeks ahead. Timed entry. Closed Mondays." },
+      { "id": "pb4", "title": "Sainte-Chapelle", "lead": 21, "assignee": null, "booked": false, "cost": 0, "ref": "", "food": false,
+        "tip": "Book several weeks ahead. Timed entry." },
+      { "id": "pb5", "title": "Catacombs", "lead": 14, "assignee": null, "booked": false, "cost": 0, "ref": "", "food": false,
+        "tip": "Book 1+ week ahead; it often sells out. Timed entry only. Closed Mondays." },
+      { "id": "pb6", "title": "Musée de l’Orangerie", "lead": 14, "assignee": 4, "booked": false, "cost": 0, "ref": "", "food": false,
+        "tip": "Book 1–2 weeks ahead. Morning slots go first." },
+      { "id": "pb7", "title": "Musée d’Orsay", "lead": 21, "assignee": 2, "booked": false, "cost": 0, "ref": "", "food": false,
+        "tip": "Book several weeks ahead. Timed entry." },
+      { "id": "pb8", "title": "Restaurants", "lead": 21, "assignee": 2, "booked": false, "cost": 0, "ref": "", "food": true,
+        "tip": "Book 1–3 weeks ahead. Many close for all of August." },
+      { "id": "pb9", "title": "Cabaret / cooking class / tastings", "lead": 28, "assignee": 1, "booked": true, "cost": 37500, "ref": "FROMAGE-118", "food": true,
+        "tip": "Book 2–4 weeks ahead. Group sizes are limited." },
+      { "id": "pb10", "title": "Airport transfer", "lead": 0, "assignee": 4, "booked": false, "cost": 0, "ref": "", "food": false,
+        "tip": "Sort it on the day. Needs the separate €14 airport ticket." }
+    ],
+    "itinerary": [
+      { "day": 0, "time": "14:00", "title": "Check in — apartment in Le Marais", "note": "Door code is in the group chat. Fourth floor, no lift, great windows." },
+      { "day": 0, "time": "17:00", "title": "Le Marais shops + falafel", "note": "Falafel on Rue des Rosiers, then wander.", "activityId": "p12" },
+      { "day": 0, "time": "21:00", "title": "Sparkle-hour picnic at Champ de Mars", "note": "Bring a blanket. The tower sparkles on the hour.", "activityId": "p2" },
+      { "day": 1, "time": "09:30", "title": "Louvre", "note": "Meet under the pyramid 15 minutes early. Pick three must-sees.", "activityId": "p3", "bookingId": "pb2" },
+      { "day": 1, "time": "14:00", "title": "Lunch + a stroll through the Tuileries", "note": "" },
+      { "day": 1, "time": "19:00", "title": "Seine cruise at dusk", "note": "", "activityId": "p18" },
+      { "day": 2, "time": "08:30", "title": "Versailles day trip", "note": "RER C to Versailles Château Rive Gauche. Walking shoes!", "activityId": "p10", "bookingId": "pb3" },
+      { "day": 2, "time": "19:30", "title": "Cheese and wine tasting", "note": "", "activityId": "p16", "bookingId": "pb9" },
+      { "day": 3, "time": "10:00", "title": "Montmartre wander + Sacré-Cœur", "note": "", "activityId": "p11" },
+      { "day": 3, "time": "15:00", "title": "Musée d’Orsay", "note": "", "activityId": "p4", "bookingId": "pb7" },
+      { "day": 3, "time": "21:00", "title": "Cabaret night", "note": "Dressier-outfit night.", "activityId": "p19" },
+      { "day": 4, "time": "09:00", "title": "Market morning", "note": "Last croissants, plus cheese to take home.", "activityId": "p15" },
+      { "day": 4, "time": "12:00", "title": "Check out + airport", "note": "RER B to CDG. Everyone needs the €14 airport ticket.", "bookingId": "pb10" }
+    ],
+    "expenses": [
+      { "id": "e1", "desc": "Apartment in Le Marais (4 nights)", "amount": 210000, "category": "stay", "daysAgo": 20, "paidBy": 1, "mode": "even", "participants": [0, 1, 2, 3, 4], "custom": {} },
+      { "id": "e2", "desc": "Louvre tickets (5 × €32)", "amount": 16000, "category": "activities", "daysAgo": 9, "paidBy": 0, "mode": "even", "participants": [0, 1, 2, 3, 4], "custom": {} },
+      { "id": "e3", "desc": "Versailles tickets (4 of us)", "amount": 12000, "category": "activities", "daysAgo": 6, "paidBy": 3, "mode": "percent", "participants": [0, 1, 2, 3], "custom": { "0": 25, "1": 25, "2": 25, "3": 25 } },
+      { "id": "e4", "desc": "Wine & snacks for the apartment", "amount": 5200, "category": "other", "daysAgo": 3, "paidBy": 2, "mode": "amount", "participants": [0, 1, 2, 3, 4], "custom": { "0": 1200, "1": 1000, "2": 1000, "3": 1000, "4": 1000 } }
+    ],
+    "dream": [
+      { "id": "d1", "title": "Shakespeare and Company", "note": "The famous English bookshop across the river from Notre-Dame.", "kind": "see", "rot": -2 },
+      { "id": "d2", "title": "Macaron taste-off", "note": "Pierre Hermé vs. Ladurée. Try both and pick a favorite.", "kind": "eat", "rot": 1.5 },
+      { "id": "d3", "title": "Giverny day trip", "note": "Monet’s house and garden, about an hour from Paris. Spring to fall.", "kind": "daytrip", "rot": -1 },
+      { "id": "d4", "title": "Saint-Ouen flea market", "note": "Vintage everything, just north of the city. Weekends are busiest.", "kind": "shop", "rot": 2 },
+      { "id": "d5", "title": "Sunset on Pont Alexandre III", "note": "Gilded lamps and the prettiest bridge photo in Paris.", "kind": "see", "rot": -2.5 },
+      { "id": "d6", "title": "Jazz in a cellar club", "note": "Latin Quarter caves, for the night nobody wants to go home.", "kind": "night", "rot": 1 }
+    ],
+    "journal": [
+      { "id": "j1", "day": null, "title": "The night we booked it",
+        "text": "Group chat hit 300 messages deciding between Le Marais and Saint-Germain. Noor made a spreadsheet. We ignored the spreadsheet. We picked the apartment with the rooftop view.",
+        "favorite": "Ava sending “BONJOUR!!” as a voice note at 1am." }
+    ]
+  }
+}

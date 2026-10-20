@@ -1,0 +1,85 @@
+/* Paris theme: French café / vintage hotel.
+   Warm cream base, dusty blue-grey, espresso brown, café-au-lait tan, and a little dusty pink.
+   No bright red or primary blue anywhere. The teal Booked & Busy logo stays as it is. */
+:root {
+  /* the five Paris colors */
+  --p-cream: #F3E3CC;
+  --p-pink: #E8B7B8;
+  --p-blue: #949FB3;
+  --p-espresso: #5C3127;
+  --p-tan: #B9866F;
+
+  --cream: var(--p-cream);            /* main background */
+  --cream-2: #EAD4B8;
+  --paper: #FCF5EA;
+  --mint: #E2E5EB;                    /* soft blue-grey wash: active tabs, calm chips */
+  --mint-2: #CBD1DC;
+  --sage: var(--p-blue);              /* secondary accent */
+  --sage-deep: #5E6A80;               /* deep blue-grey: checkmarks, switches, labels */
+  --ochre: #8E5B48;                   /* café-au-lait, deepened so white button text stays readable */
+  --ochre-soft: #F4DEDC;              /* dusty-pink wash: highlights */
+  --espresso: var(--p-espresso);      /* headings, text, outlines */
+  --ink: var(--p-espresso);
+  --ink-2: rgba(92, 49, 39, .76);
+  --ink-3: rgba(92, 49, 39, .54);
+  --line: rgba(92, 49, 39, .14);
+  --line-2: rgba(92, 49, 39, .24);
+  --red: #9E4A43;                     /* muted brick, only for "urgent" and "closed" */
+  --red-soft: #F3DDD7;
+  --amber: #B1813A;
+  --amber-soft: #F2E1C2;
+  --green-soft: var(--mint);
+  --vibe-bg: #F2D3D3;                 /* vibe tags use the dusty pink */
+  --vibe-ink: #7E4A4B;
+
+  --f-display: "Playfair Display", "Didot", "Bodoni 72", Georgia, serif;
+  --f-body: "DM Sans", "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
+
+  --shadow-1: 0 1px 0 rgba(92,49,39,.04), 0 2px 6px rgba(92,49,39,.07);
+  --shadow-2: 0 2px 0 rgba(92,49,39,.04), 0 10px 26px -8px rgba(92,49,39,.24);
+  --shadow-3: 0 24px 60px -20px rgba(92,49,39,.45);
+
+  /* Signature pattern: blue-grey and cream diamond checkerboard (pure CSS). */
+  --pattern: conic-gradient(from 45deg, var(--p-blue) 25%, var(--p-cream) 0 50%, var(--p-blue) 0 75%, var(--p-cream) 0) 0 0 / 16px 16px;
+}
+
+/* Playfair runs a little larger than Fraunces at the same size; pull headings in slightly */
+h1, h2, h3, h4 { letter-spacing: 0; }
+.view-head h1 { font-size: clamp(30px, 7vw, 42px); }
+
+/* ---- pattern: header band, card trim, start card — not everywhere ---- */
+.hero-photo::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 18px; z-index: 2;
+  background: var(--pattern); border-bottom: 2px solid var(--p-espresso);
+}
+.washi::before { background: var(--pattern); opacity: .95; height: 20px; border: 1.5px solid rgba(92,49,39,.25); }
+.washi.ochre-tape::before { background: repeating-linear-gradient(90deg, rgba(255,255,255,.3) 0 6px, transparent 6px 12px), var(--p-tan); border: 0; }
+.washi.mint-tape::before { background: repeating-linear-gradient(90deg, rgba(255,255,255,.35) 0 6px, transparent 6px 12px), var(--p-pink); border: 0; }
+.start-card::before { background: var(--pattern); height: 22px; opacity: .95; border: 1.5px solid rgba(92,49,39,.25); }
+.side-brand::after { content: ""; display: block; height: 10px; margin-top: 16px; border-radius: 99px; background: var(--pattern); opacity: .9; }
+
+/* ---- colors the shared styles hard-code for Rome ---- */
+body::before {
+  background-image: radial-gradient(rgba(185,134,111,.07) 1px, transparent 1px), radial-gradient(rgba(92,49,39,.035) 1px, transparent 1px);
+}
+.btn.primary:hover { box-shadow: 0 4px 0 -1px var(--p-espresso); }
+.input:focus, .select:focus, .textarea:focus { box-shadow: 0 0 0 4px rgba(148,159,179,.32); }
+.input.bare:hover, .textarea.bare:hover { background: rgba(92,49,39,.03); }
+.vote-item.leader { border-color: rgba(185,134,111,.6); }
+.chip.ochre { background: #F0E0D3; color: var(--ochre); }   /* booking hints: tan, so pink stays rare */
+.tile.t3 { background: #EFDCCB; }
+.tile.t4 { background: #E6E1D9; }
+.tip { background: var(--mint); color: var(--ink); }
+.hero-photo::after { background: linear-gradient(180deg, rgba(92,49,39,0) 35%, rgba(92,49,39,.5) 100%); }
+.postmark { border-color: rgba(92,49,39,.55); color: rgba(92,49,39,.65); }
+.postmark::before { border-color: rgba(92,49,39,.4); }
+.postmark .wave { stroke: rgba(92,49,39,.5); }
+.stamp-inner { background: var(--ochre-soft); border-color: var(--p-tan); }
+.stamp-inner .roma { font-style: italic; }
+.bottomnav { box-shadow: 0 -8px 24px -18px rgba(92,49,39,.4); }
+.polaroid { box-shadow: 0 1px 1px rgba(0,0,0,.05), 0 10px 20px -10px rgba(92,49,39,.35); }
+.sheet-backdrop { background: rgba(60,32,25,.45); }
+.pack-cat.paris { background: linear-gradient(180deg, var(--ochre-soft), var(--paper) 70%); }
+.day-head .dnum, .stamp-inner .lbl { color: var(--sage-deep); }
+.phrase { border-left-color: var(--p-tan); }

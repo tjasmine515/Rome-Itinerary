@@ -798,6 +798,70 @@ table.ledger { width: 100%; border-collapse: collapse; font-size: 14px; min-widt
 .side-brand .wordmark .logo { width: 150px; }
 .brandmark .logo { height: 36px; width: auto; }
 .start-card .wordmark .logo { width: 190px; margin: 0 auto; }
+
+/* ==========================================================================
+   City extras — only show up for cities whose file turns them on:
+   closed-day warnings, book-first alerts, tip cards, tourist tax,
+   price guide and the pocket guide tab
+   ========================================================================== */
+.chip.vibe { background: var(--vibe-bg, var(--cream-2)); color: var(--vibe-ink, var(--ink-2)); }
+.closed-warn { border: 1.5px solid var(--red); background: var(--red-soft); margin-bottom: 14px; }
+.closed-warn > b { color: var(--red); }
+.closed-warn ul { margin: 8px 0 6px; padding-left: 18px; font-size: 14px; }
+.closed-warn li + li { margin-top: 4px; }
+.closed-warn .faint { font-size: 12.5px; }
+.book-first { border: 2px solid var(--ochre); }
+.book-first .card-head .ico { width: 30px; height: 30px; font-size: 22px; }
+.tip-cards { display: grid; gap: 10px; }
+@media (min-width: 720px) { .tip-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.tip-card { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 12px; background: var(--cream); }
+.tip-card .ico { width: 36px; height: 36px; font-size: 24px; }
+.tip-card b { display: block; font-weight: 700; }
+.tip-card p { font-size: 13.5px; color: var(--ink-2); }
+.tip-note { font-size: 12.5px; margin-top: -4px; }
+.tax-card .card-head > .ico, .price-card .card-head > .ico { width: 30px; height: 30px; font-size: 22px; }
+.tax-sum { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 14px 0 8px; padding: 12px 14px; border-radius: 12px; background: var(--cream); }
+.tax-sum span { font-size: 13.5px; color: var(--ink-2); font-weight: 600; }
+.tax-sum b { font: 600 26px/1 var(--f-display); }
+.price-list { display: flex; flex-direction: column; }
+.price-row { display: grid; grid-template-columns: minmax(0, 1fr) 100px 62px; gap: 10px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); }
+.price-row:first-child { border-top: 0; }
+.price-row .pl b { display: block; font-weight: 600; font-size: 14px; line-height: 1.25; }
+.price-row .pl small { display: block; font-size: 12px; color: var(--ink-3); }
+.price-row .input { min-height: 38px; padding: 6px 8px 6px 26px; font-size: 15px; }
+.price-row .money-input .cur { left: 10px; }
+.price-row .pg { text-align: right; font-weight: 700; font-size: 13px; }
+.price-row .pg small { display: block; font-weight: 500; font-size: 11px; color: var(--ink-3); }
+.price-note { margin-top: 10px; }
+.price-note .hand { font-size: 18px; color: var(--ochre); }
+
+.pocket-band { height: 16px; border-radius: 99px; margin: -4px 0 14px; background: var(--pattern, var(--mint)); }
+.pocket-jump { display: flex; gap: 8px; overflow-x: auto; padding: 4px 16px 10px; margin: 0 -16px 4px; scrollbar-width: none; position: sticky; top: 58px; z-index: 10; background: linear-gradient(var(--cream) 80%, transparent); }
+.pocket-jump::-webkit-scrollbar { display: none; }
+@media (min-width: 960px) { .pocket-jump { top: 66px; margin: 0 -36px 4px; padding: 4px 36px 10px; } }
+.pocket-jump .daypill { flex-direction: row; gap: 7px; text-transform: none; letter-spacing: 0; font-size: 13.5px; min-width: 0; padding: 8px 14px; }
+.pocket-jump .daypill .ico { width: 20px; height: 20px; font-size: 16px; }
+.pocket-sec { scroll-margin-top: 130px; }
+.pocket-sec .section-title .ico { width: 32px; height: 32px; font-size: 22px; }
+.pocket-intro { margin: -4px 0 12px; font-size: 14px; }
+.phrase-grid { display: grid; gap: 10px; }
+@media (min-width: 620px) { .phrase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1180px) { .phrase-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.phrase { background: var(--paper); border: 1px solid var(--line); border-left: 5px solid var(--sage); border-radius: var(--r); padding: 13px 14px 12px; box-shadow: var(--shadow-1); }
+.phrase h3 { font-size: 21px; line-height: 1.15; }
+.phrase .pron { font: 700 13px/1.3 var(--f-body); letter-spacing: .04em; color: var(--sage-deep); margin-top: 5px; }
+.phrase .use { font-size: 13.5px; color: var(--ink-2); margin-top: 5px; }
+.say-btn { width: 36px; height: 36px; margin: -6px -6px 0 0; font-size: 16px; }
+.custom-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.custom-list li { display: flex; gap: 12px; align-items: flex-start; }
+.custom-list .vote-rank { width: 34px; height: 34px; font-size: 16px; flex: none; }
+.custom-list b { display: block; font-weight: 700; }
+.custom-list p { font-size: 14px; color: var(--ink-2); margin-top: 2px; }
+.fact-grid { display: grid; gap: 20px; padding-top: 8px; }
+@media (min-width: 720px) { .fact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.fact .hand { font-size: 22px; color: var(--ochre); display: block; margin-bottom: 4px; line-height: 1.1; }
+.fact p { font-size: 14.5px; }
+
 /* Rome theme: cream base + Trevi-inspired teal accents. */
 :root {
   --cream: #FAF2E2;
@@ -932,8 +996,10 @@ const firstName = (name) => String(name || '').trim().split(/\s+/)[0] || 'Someon
 
 /* ---------- optional art: PNG if present, emoji otherwise ---------- */
 const ASSETS = new Set();
+const NAMED_ICONS = [...new Set([...Object.values(CITY.tabIcons || {}), ...(CITY.extraIcons || [])])];
 function probeAssets() {
-  const list = ['images/hero.jpg', ...TABS.map((t) => `icons/${t.id}.png`), 'icons/doodle-1.png', 'icons/doodle-2.png', 'icons/doodle-3.png'];
+  const list = ['images/hero.jpg', ...TABS.map((t) => `icons/${t.id}.png`), 'icons/doodle-1.png', 'icons/doodle-2.png', 'icons/doodle-3.png',
+    ...NAMED_ICONS.flatMap((n) => [`icons/${n}.png`, `icons/${n}.svg`])];
   return Promise.all(list.map((src) => new Promise((res) => {
     const i = new Image();
     i.onload = () => { ASSETS.add(src); res(); };
@@ -941,9 +1007,15 @@ function probeAssets() {
     i.src = src;
   })));
 }
+/** A named icon file (icons/<name>.png, else .svg) if it loaded. */
+const artSrc = (name) => (ASSETS.has(`icons/${name}.png`) ? `icons/${name}.png` : ASSETS.has(`icons/${name}.svg`) ? `icons/${name}.svg` : '');
+const art = (name, emoji = '', cls = '') => (artSrc(name)
+  ? `<span class="ico ${cls}"><img src="${artSrc(name)}" alt=""></span>`
+  : `<span class="ico ${cls}" aria-hidden="true">${emoji}</span>`);
 function icon(tabId, cls = '') {
   const t = TABS.find((x) => x.id === tabId);
-  const src = `icons/${tabId}.png`;
+  const named = (CITY.tabIcons || {})[tabId];
+  const src = named ? artSrc(named) : `icons/${tabId}.png`;
   return ASSETS.has(src)
     ? `<span class="ico ${cls}"><img src="${src}" alt=""></span>`
     : `<span class="ico ${cls}" aria-hidden="true">${t ? t.emoji : ''}</span>`;
@@ -1170,6 +1242,16 @@ function closureFor(text, date) {
   const t = fold(text);
   return CITY.closures.find((c) => c.days.includes(date.getDay()) && c.match.some((m) => t.includes(fold(m)))) || null;
 }
+const dayDate = (i) => { const d = tripDays()[i]; return d ? d.date : null; };
+/** Is this plan on a day its venue is closed? Checks the plan, its linked idea and its linked booking. */
+function itemClosure(it) {
+  if (!CITY.closures) return null;
+  const a = state.activities.find((x) => x.id === it.activityId);
+  const b = state.bookings.find((x) => x.id === it.bookingId);
+  return closureFor([it.title, a && a.title, b && b.title].join(' '), dayDate(+it.day));
+}
+const closedPlans = () => (CITY.closures ? state.itinerary.filter((i) => itemClosure(i)) : []);
+const closedMsg = (cl) => `${cl.venue} is closed ${cl.label}.`;
 function dietNotes() { return state.guests.filter((g) => g.diet && g.diet.trim()); }
 
 /* ==========================================================================
@@ -1491,6 +1573,7 @@ function viewDashboard() {
   return viewHead('dashboard', `Today`, 'Today’s plan, what’s still open, and where the budget stands.') + `
   <div class="grid cols-2">
     <div class="span-2">${todayCard}</div>
+    ${bookFirstCard(p)}
     <div class="card">
       <div class="card-head"><h3>What’s left to do</h3></div>
       <ul class="todo-list">
@@ -1499,6 +1582,7 @@ function viewDashboard() {
         ${row(favs.length, favs.length === 1 ? 'crowd favorite not scheduled' : 'crowd favorites not scheduled', tie.length ? `Tie: ${tie.slice(0, 3).map((r) => esc(r.a.title.split(/[—(+&]/)[0].trim())).join(' vs. ')} (${pl(tie[0].n, 'vote')} each)` : nonVoters.length ? `${pl(nonVoters.length, 'person hasn’t', 'people haven’t')} voted yet` : 'Everyone has voted', 'vote')}
         ${row(settle.length, settle.length === 1 ? 'payment to settle up' : 'payments to settle up', settle.length ? `Largest: ${money(Math.max(...settle.map((s) => s.amount)))}` : 'Everyone’s square', 'budget')}
         ${row(pending.length, pending.length === 1 ? 'guest still deciding' : 'guests still deciding', pending.length ? pending.map((g) => esc(firstName(g.name))).join(', ') : 'Everyone’s confirmed', 'guests')}
+        ${CITY.closures ? (() => { const c = closedPlans(); return row(c.length, c.length === 1 ? 'plan on a closed day' : 'plans on a closed day', c.length ? c.map((i) => esc(itemClosure(i).venue)).join(', ') : 'No clashes with closing days', 'itinerary'); })() : ''}
       </ul>
     </div>
     <div class="stack">
@@ -1513,8 +1597,29 @@ function viewDashboard() {
         ${next.length ? next.map((x) => { const u = urgency(x); return `<button type="button" class="settle" style="width:100%;border:0;background:none;text-align:left;font:inherit;color:inherit" data-action="go" data-tab="bookings"><span class="dot ${u.level}"></span><span style="flex:1;min-width:0"><b style="display:block;font-weight:600">${esc(x.title)}</b><small class="muted">Book by ${esc(fmtDate(parseISO(x.bookBy))) || '—'} · ${esc(u.label)}</small></span></button>`; }).join('') : '<p class="muted">Nothing left to book.</p>'}
       </div>
     </div>
+    ${gettingAroundCard()}
     <div class="span-2 only-mobile">${backupCard()}</div>
   </div>`;
+}
+
+/** "Book these first": big-ticket bookings whose booking window the trip is now inside. */
+function bookFirstCard(p) {
+  if (!CITY.bookFirst || p.phase !== 'before') return '';
+  const list = CITY.bookFirst.map((r) => ({ r, b: state.bookings.find((x) => x.id === r.bookingId) })).filter(({ r, b }) => b && !b.booked && p.until <= r.windowDays);
+  if (!list.length) return '';
+  return `<div class="span-2"><div class="card book-first" data-key="book-first">
+    <div class="card-head">${art('eiffel-tower', '🎟️')}<h3>Book these first</h3><span class="chip red">${pl(p.until, 'day')} to go</span></div>
+    <p class="muted" style="font-size:13.5px;margin:-4px 0 4px">Your trip is inside the booking window for ${list.length === 1 ? 'this one' : 'these'}, and ${list.length === 1 ? 'it sells' : 'they sell'} out first.</p>
+    ${list.map(({ r, b }) => `<button type="button" class="settle" style="width:100%;border:0;background:none;text-align:left;font:inherit;color:inherit" data-action="go" data-tab="bookings"><span class="dot ${urgency(b).level}"></span><span style="flex:1;min-width:0"><b style="display:block;font-weight:600">${esc(b.title)}</b><small class="muted">${esc(r.why)}</small></span><span class="chev">→</span></button>`).join('')}
+  </div></div>`;
+}
+function gettingAroundCard() {
+  const ga = CITY.gettingAround;
+  if (!ga) return '';
+  return `<div class="span-2"><div class="card" data-key="getting-around">
+    <div class="card-head"><h3>${esc(ga.title)}</h3></div>
+    <div class="tip-cards">${ga.tips.map((t) => `<div class="tip-card">${art(t.icon, t.emoji)}<div><b>${esc(t.head)}</b><p>${esc(t.text)}</p></div></div>`).join('')}</div>
+  </div></div>`;
 }
 
 /* ==========================================================================
@@ -1571,7 +1676,7 @@ function viewVote() {
   const voter = guest(ui.voteAs);
   const ranked = rankedActivities();
   const top = ranked.length ? ranked[0].n : 0;
-  return viewHead('vote', `Group Picks`, 'Vote on what you want to do. The most popular ideas move to the top.',
+  return viewHead('vote', `Group Picks`, S.voteLede || 'Vote on what you want to do. The most popular ideas move to the top.',
     `<button type="button" class="btn" data-action="addActivity">${svgIcon('plus')} Suggest an idea</button>`) + `
   <div class="card" style="margin-bottom:16px">
     <div class="kicker" style="margin-bottom:10px">Who’s voting?</div>
@@ -1603,6 +1708,8 @@ function viewVote() {
           ${tied ? '<span class="chip amber">Tied for top</span>' : ''}
           ${sched ? '<span class="chip mint">✓ On the itinerary</span>' : ''}
           ${a.custom ? '<span class="chip outline">Suggested</span>' : ''}
+          ${(a.tags || []).map((t) => `<span class="chip vibe">${esc(t)}</span>`).join('')}
+          ${a.book && CITY.bookLabels && CITY.bookLabels[a.book] ? `<span class="chip ${a.book === 'no' ? 'outline' : 'ochre'}">${a.book === 'no' ? '' : '🎟 '}${esc(CITY.bookLabels[a.book])}</span>` : ''}
         </div>
         ${voter
           ? `<div class="row wrap"><button type="button" class="btn ${mine ? 'sage' : ''} small" aria-pressed="${!!mine}" data-action="vote" data-id="${a.id}" data-g="${voter.id}">${mine ? '✓ I’m in' : 'I’m in'}</button><span class="avatars">${votes.map((id) => avatar(guest(id), 'sm')).join('')}</span></div>`
@@ -1620,12 +1727,14 @@ function slotHTML(it) {
   const a = state.activities.find((x) => x.id === it.activityId);
   const u = b ? urgency(b) : null;
   const cost = it.cost || (b && b.cost) || 0;
+  const cl = itemClosure(it);
   return `<button type="button" class="slot" data-key="it-${it.id}" data-action="editItem" data-id="${it.id}">
     <span class="time ${it.time ? '' : 'none'}">${it.time ? fmtTime(it.time) : 'Anytime'}</span>
     <span style="min-width:0">
       <span class="ti">${esc(it.title)}</span>
       ${it.note ? `<span class="no" style="display:block">${esc(it.note)}</span>` : ''}
-      ${b || a ? `<span class="meta">
+      ${b || a || cl ? `<span class="meta">
+        ${cl ? `<span class="chip red">⚠ ${esc(cl.venue)} is closed ${esc(cl.label)}</span>` : ''}
         ${b ? `<span class="chip ${u.level === 'done' ? 'green' : u.level}"><span class="dot ${u.level}"></span>${u.level === 'done' ? 'Booked' : `Book by ${esc(fmtDate(parseISO(b.bookBy)))}`}</span>` : ''}
         ${a ? `<span class="chip">💘 ${validVotes(a).length} of ${state.guests.length}</span>` : ''}
       </span>` : ''}
@@ -1640,7 +1749,11 @@ function viewItinerary() {
   if (!days.length) return viewHead('itinerary', `Itinerary`, '') + emptyState('🗓️', 'first, the dates', 'No dates yet', 'Set your trip dates on the Home page and your day-by-day agenda appears here.', '<button type="button" class="btn primary" data-action="go" data-tab="home">Set trip dates</button>');
   const p = tripPhase();
   const out = state.itinerary.filter((i) => i.day >= days.length || i.day < 0);
+  const clash = closedPlans();
   return viewHead('itinerary', `Itinerary`, 'Tap any plan to edit it. Linked bookings show their book-by date.', actions) + `
+  ${clash.length ? `<div class="card closed-warn" data-key="closed-warn"><b>⚠ ${pl(clash.length, 'plan is', 'plans are')} on a closed day</b>
+    <ul>${clash.map((i) => `<li><button type="button" class="linkish" data-action="editItem" data-id="${i.id}">${esc(i.title)}</button> (Day ${+i.day + 1}, ${esc(fmtDay(dayDate(+i.day)))}): ${esc(closedMsg(itemClosure(i)))}</li>`).join('')}</ul>
+    <p class="faint">Tap a plan to move it to another day.</p></div>` : ''}
   <div class="daypills" role="navigation" aria-label="Jump to day">${days.map((d) => `<button type="button" class="daypill ${p.phase === 'during' && p.index === d.i ? 'today' : ''}" data-action="jumpDay" data-day="${d.i}">Day ${d.i + 1}<b>${d.date.getDate()}</b>${esc(d.date.toLocaleDateString(undefined, { weekday: 'short' }))}</button>`).join('')}</div>
   <div class="stack" style="gap:22px">
   ${days.map((d) => {
@@ -1740,6 +1853,8 @@ function budgetOverview() {
     </div>
   </div>
 
+  ${CITY.budget ? `<div class="grid cols-2 section">${taxCard()}${priceCard()}</div>` : ''}
+
   <div class="card section">
     <div class="card-head"><h3>Everyone’s fair share</h3></div>
     <p class="muted" style="font-size:13.5px;margin-bottom:10px">Split evenly, each of the ${pl(gs.length, 'traveler')} owes about <b>${money(evenSpent)}</b> of what’s been spent so far${tr.budget ? `, and <b>${money(perHead)}</b> of the full budget` : ''}. The table uses each expense’s actual split, so uneven splits are handled.</p>
@@ -1748,6 +1863,54 @@ function budgetOverview() {
       <tbody>${gs.map((g) => { const b = bal[g.id] || 0; return `<tr data-key="pp-${g.id}"><td><span class="person-cell">${avatar(g, 'sm')}${esc(g.name)}</span></td><td class="r">${money(shareOf[g.id])}</td><td class="r">${money(paidOf[g.id])}</td><td class="r ${b > 0 ? 'pos' : b < 0 ? 'neg' : ''}">${b > 0 ? `gets ${money(b)}` : b < 0 ? `owes ${money(-b)}` : 'square'}</td></tr>`; }).join('')}</tbody>
     </table></div>
     <button type="button" class="btn small" style="margin-top:12px" data-action="budgetView" data-v="split">See who pays who →</button>
+  </div>`;
+}
+
+/** Tourist tax: a flat rate per adult per night, or a % of the nightly rate (capped) for rentals. All in cents. */
+function touristTax() {
+  const tt = CITY.budget.touristTax;
+  const x = state.tax;
+  const stay = tt.rates.find((r) => r.id === x.stay) || tt.rates[0];
+  const adultsAuto = state.guests.filter((g) => g.confirmed).length;
+  const nightsAuto = Math.max(0, tripDays().length - 1);
+  const adults = x.adults === '' || x.adults == null ? adultsAuto : clamp(parseInt(x.adults, 10) || 0, 0, 99);
+  const nights = x.nights === '' || x.nights == null ? nightsAuto : clamp(parseInt(x.nights, 10) || 0, 0, 365);
+  const per = stay.pct != null ? Math.min(Math.round(((+x.nightly || 0) * stay.pct * stay.multiplier) / 100), stay.cap) : stay.amount;
+  return { stay, adults, nights, adultsAuto, nightsAuto, per, total: per * adults * nights };
+}
+function taxCard() {
+  const tt = CITY.budget.touristTax;
+  if (!tt || !state.tax) return '';
+  const t = touristTax();
+  const x = state.tax;
+  const rental = t.stay.pct != null;
+  return `<div class="card washi tax-card" data-key="tax-card">
+    <div class="card-head">${art('key', '🔑')}<h3>${esc(tt.title)}</h3></div>
+    <p class="muted" style="font-size:13.5px;margin:-4px 0 12px">${esc(tt.intro)}</p>
+    <div class="form-grid">
+      <label class="field full"><span>Where are you staying?</span><select class="select" data-bind="tax::stay">${tt.rates.map((r) => `<option value="${r.id}" ${t.stay.id === r.id ? 'selected' : ''}>${esc(r.label)}${r.amount != null ? ` · ${money(r.amount)}` : ''}</option>`).join('')}</select></label>
+      ${rental ? `<label class="field full"><span>Nightly price per person</span><span class="money-input"><span class="cur">${esc(cur())}</span><input class="input" inputmode="decimal" data-bind="tax::nightly" data-type="money" value="${esc(moneyStr(x.nightly))}" placeholder="0"></span><small>The nightly price before taxes, divided by the number of guests.</small></label>` : ''}
+      <label class="field"><span>Adults (18+)</span><input class="input" type="number" inputmode="numeric" min="0" max="99" data-bind="tax::adults" value="${esc(x.adults)}" placeholder="${t.adultsAuto}"></label>
+      <label class="field"><span>Nights</span><input class="input" type="number" inputmode="numeric" min="0" max="365" data-bind="tax::nights" value="${esc(x.nights)}" placeholder="${t.nightsAuto}"></label>
+    </div>
+    <div class="tax-sum"><span>${money(t.per)} × ${pl(t.adults, 'adult')} × ${pl(t.nights, 'night')}</span><b class="num">${money(t.total)}</b></div>
+    ${rental ? `<p class="faint" style="font-size:12.5px;margin-bottom:10px">${esc(tt.rentalNote)}</p>` : ''}
+    <button type="button" class="btn small" data-action="logTax" ${t.total && state.guests.length ? '' : 'disabled'}>${svgIcon('plus')} Log it as an expense</button>
+  </div>`;
+}
+function priceCard() {
+  const pg = CITY.budget.priceGuide;
+  if (!pg || !state.prices) return '';
+  const n = state.guests.length;
+  return `<div class="card price-card" data-key="price-card">
+    <div class="card-head">${art('croissant', '🥐')}<h3>${esc(pg.title)}</h3></div>
+    <p class="muted" style="font-size:13.5px;margin:-4px 0 8px">${esc(pg.intro)}</p>
+    <div class="price-list">${state.prices.map((x) => `<div class="price-row" data-key="pr-${x.id}">
+      <span class="pl"><b>${esc(x.label)}</b>${x.note ? `<small>${esc(x.note)}</small>` : ''}</span>
+      <span class="money-input"><span class="cur">${esc(cur())}</span><input class="input" inputmode="decimal" data-bind="prices:${x.id}:amount" data-type="money" value="${esc(moneyStr(x.amount))}" aria-label="${esc(x.label)} price"></span>
+      <span class="pg num">${n > 1 ? `${money(x.amount * n)}<small>for ${n}</small>` : ''}</span>
+    </div>`).join('')}</div>
+    <p class="price-note"><span class="hand">${esc(pg.warning)}</span></p>
   </div>`;
 }
 
@@ -1947,9 +2110,40 @@ function viewMemories() {
 }
 
 /* ==========================================================================
+   POCKET GUIDE — phrases, customs, fun facts (from the city file)
+   ========================================================================== */
+const canSpeak = () => 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+function viewPocket() {
+  const pk = CITY.pocket;
+  const secs = [['phrases', pk.phrases], ['customs', pk.customs], ['facts', pk.facts]].filter(([, x]) => x && x.items.length);
+  return viewHead('pocket', esc(pk.title), esc(pk.lede)) + `
+  <div class="pocket-band" aria-hidden="true"></div>
+  <nav class="pocket-jump" aria-label="Jump to section">${secs.map(([id, x]) => `<button type="button" class="daypill" data-action="jumpPocket" data-v="${id}">${art(x.icon, x.emoji)}${esc(x.short || x.title)}</button>`).join('')}</nav>
+  ${pk.phrases && pk.phrases.items.length ? `<section class="section pocket-sec" id="pocket-phrases" data-key="pocket-phrases">
+    <h2 class="section-title">${art(pk.phrases.icon, pk.phrases.emoji)}${esc(pk.phrases.title)}</h2>
+    ${pk.phrases.intro ? `<p class="muted pocket-intro">${esc(pk.phrases.intro)}</p>` : ''}
+    <div class="phrase-grid">${pk.phrases.items.map((x, i) => `<article class="phrase" data-key="ph-${i}">
+      <div class="row between" style="align-items:flex-start"><h3 lang="${esc(pk.lang || '')}">${esc(x.say)}</h3>
+        ${canSpeak() && pk.lang ? `<button type="button" class="icon-btn say-btn" data-action="sayPhrase" data-i="${i}" aria-label="Hear “${esc(x.say)}”">🔊</button>` : ''}</div>
+      <div class="pron">${esc(x.sound)}</div>
+      <p class="use">${esc(x.use)}</p>
+    </article>`).join('')}</div>
+  </section>` : ''}
+  ${pk.customs && pk.customs.items.length ? `<section class="section pocket-sec" id="pocket-customs" data-key="pocket-customs">
+    <h2 class="section-title">${art(pk.customs.icon, pk.customs.emoji)}${esc(pk.customs.title)}</h2>
+    <ol class="custom-list">${pk.customs.items.map((x, i) => `<li class="card" data-key="cu-${i}"><span class="vote-rank num">${i + 1}</span><div><b>${esc(x.head)}</b>${x.text ? `<p>${esc(x.text)}</p>` : ''}</div></li>`).join('')}</ol>
+  </section>` : ''}
+  ${pk.facts && pk.facts.items.length ? `<section class="section pocket-sec" id="pocket-facts" data-key="pocket-facts">
+    <h2 class="section-title">${art(pk.facts.icon, pk.facts.emoji)}${esc(pk.facts.title)}</h2>
+    <div class="fact-grid">${pk.facts.items.map((x, i) => `<article class="card fact washi ${i % 2 ? 'right' : ''}" data-key="fa-${i}"><span class="hand">${esc(x.head)}</span><p>${esc(x.text)}</p></article>`).join('')}</div>
+  </section>` : ''}`;
+}
+
+/* ==========================================================================
    Render
    ========================================================================== */
-const VIEWS = { home: viewHome, guests: viewGuests, dashboard: viewDashboard, vote: viewVote, itinerary: viewItinerary, budget: viewBudget, bookings: viewBookings, packing: viewPacking, dream: viewDream, memories: viewMemories };
+const VIEWS = { home: viewHome, guests: viewGuests, dashboard: viewDashboard, vote: viewVote, itinerary: viewItinerary, budget: viewBudget, bookings: viewBookings, packing: viewPacking, dream: viewDream, memories: viewMemories,
+  ...(CITY.pocket ? { pocket: viewPocket } : {}) };
 
 let rendering = false;
 function render() {
@@ -2057,6 +2251,7 @@ function itemSheet(it, day) {
     valid: (x) => x.title.trim(),
     body: (x) => `<div class="form-grid">
       <label class="field full"><span>What’s the plan?</span><input class="input" data-d="title" value="${esc(x.title)}" placeholder="${esc(S.phPlan)}" maxlength="100" autofocus></label>
+      ${(() => { const cl = itemClosure(x); return cl ? `<div class="full split-sum bad" aria-live="polite">⚠ ${esc(closedMsg(cl))} Try another day.</div>` : ''; })()}
       <label class="field"><span>Day</span><select class="select" data-d="day" data-type="int">${dayOptions(x.day)}${x.day >= days.length ? `<option value="${x.day}" selected>Outside trip dates</option>` : ''}</select></label>
       <label class="field"><span>Time <small class="faint">(optional)</small></span><input type="time" class="input" data-d="time" value="${esc(x.time)}"></label>
       <label class="field full"><span>Notes</span><textarea class="textarea" data-d="note" rows="3" placeholder="Meeting point, dress code, who has the tickets…">${esc(x.note)}</textarea></label>
@@ -2067,7 +2262,8 @@ function itemSheet(it, day) {
       const rec = { id: it ? it.id : uid(), day: +x.day, time: x.time, title: x.title.trim(), note: x.note.trim(), cost: parseMoney(x.cost), bookingId: x.bookingId, activityId: x.activityId || '' };
       if (it) Object.assign(it, rec); else state.itinerary.push(rec);
       commit();
-      toast(it ? 'Plan updated' : `Added to Day ${rec.day + 1}`);
+      const cl = itemClosure(rec);
+      toast(cl ? `Heads up: ${closedMsg(cl)}` : it ? 'Plan updated' : `Added to Day ${rec.day + 1}`);
     },
     onDelete: it ? () => undoable('Plan removed', () => { state.itinerary = state.itinerary.filter((x) => x.id !== it.id); }) : null,
   });
@@ -2118,14 +2314,18 @@ function activitySheet() {
 }
 
 /* ---- expense ---- */
-function expenseSheet(e) {
+const TIP = (CITY.budget || {}).tipping;
+/** Bill plus tip, in cents (cities without tipping just use the bill). */
+const billTotal = (x) => { const bill = parseMoney(x.amount); return TIP ? bill + Math.round((bill * (parseFloat(x.tip) || 0)) / 100) : bill; };
+function expenseSheet(e, pre = {}) {
   const gs = state.guests;
   const d = e ? {
-    desc: e.desc, amount: moneyStr(e.amount), category: e.category === 'settlement' ? 'settlement' : e.category, date: e.date, paidBy: e.paidBy, mode: e.mode,
+    ...(TIP ? { tip: String(e.tip ?? 0) } : {}),
+    desc: e.desc, amount: moneyStr(TIP && e.bill != null ? e.bill : e.amount), category: e.category === 'settlement' ? 'settlement' : e.category, date: e.date, paidBy: e.paidBy, mode: e.mode,
     participants: [...e.participants], custom: Object.fromEntries(Object.entries(e.custom || {}).map(([k, v]) => [k, e.mode === 'amount' ? moneyStr(v) : String(v)])),
-  } : { desc: '', amount: '', category: 'food', date: isoOf(today()), paidBy: gs[0].id, mode: 'even', participants: gs.map((g) => g.id), custom: {} };
+  } : { ...(TIP ? { tip: String(TIP.default) } : {}), desc: '', amount: '', category: 'food', date: isoOf(today()), paidBy: gs[0].id, mode: 'even', participants: gs.map((g) => g.id), custom: {}, ...pre };
   const check = (x) => {
-    const amt = parseMoney(x.amount);
+    const amt = billTotal(x);
     const ps = x.participants.filter((id) => guest(id));
     if (!amt) return { ok: false, msg: 'Enter an amount' };
     if (!guest(x.paidBy)) return { ok: false, msg: 'Pick who paid' };
@@ -2155,6 +2355,8 @@ function expenseSheet(e) {
       return `<div class="form-grid">
         <label class="field full"><span>What was it?</span><input class="input" data-d="desc" value="${esc(x.desc)}" placeholder="${esc(S.phExpense)}" maxlength="90" autofocus></label>
         <label class="field"><span>Amount</span><span class="money-input"><span class="cur">${esc(cur())}</span><input class="input" inputmode="decimal" data-d="amount" value="${esc(x.amount)}" placeholder="0.00"></span></label>
+        ${TIP && x.category !== 'settlement' ? `<label class="field"><span>Tip %</span><input class="input" inputmode="decimal" data-d="tip" value="${esc(x.tip)}" placeholder="0" maxlength="5"></label>
+        <p class="full faint tip-note">${esc(TIP.note)}${parseFloat(x.tip) ? ` With tip: <b>${money(billTotal(x))}</b>` : ''}</p>` : ''}
         <label class="field"><span>Paid by</span><select class="select" data-d="paidBy">${guestOptions(x.paidBy)}</select></label>
         <label class="field"><span>Category</span><select class="select" data-d="category">${[...CATS, ...(x.category === 'settlement' ? [SETTLE_CAT] : [])].map((c) => `<option value="${c.id}" ${x.category === c.id ? 'selected' : ''}>${c.emoji} ${c.label}</option>`).join('')}</select></label>
         <label class="field"><span>Date</span><input type="date" class="input" data-d="date" value="${esc(x.date)}"></label>
@@ -2171,7 +2373,8 @@ function expenseSheet(e) {
       const ps = x.participants.filter((id) => guest(id));
       const custom = {};
       if (x.mode !== 'even') ps.forEach((id) => { custom[id] = x.mode === 'amount' ? parseMoney(x.custom[id]) : (parseFloat(x.custom[id]) || 0); });
-      const rec = { id: e ? e.id : uid(), desc: x.desc.trim(), amount: parseMoney(x.amount), category: x.category, date: x.date, paidBy: x.paidBy, mode: x.mode, participants: ps, custom };
+      const rec = { id: e ? e.id : uid(), desc: x.desc.trim(), amount: billTotal(x), category: x.category, date: x.date, paidBy: x.paidBy, mode: x.mode, participants: ps, custom,
+        ...(TIP && x.category !== 'settlement' ? { bill: parseMoney(x.amount), tip: parseFloat(x.tip) || 0 } : {}) };
       if (e) Object.assign(e, rec); else state.expenses.push(rec);
       commit();
       toast(e ? 'Expense updated' : `${money(rec.amount)} logged`);
@@ -2199,7 +2402,9 @@ function bookingSheet(b) {
       <label class="switch full"><input type="checkbox" data-d="booked" ${x.booked ? 'checked' : ''}><span class="track"></span>Already booked</label>
     </div>`,
     onSubmit: (x) => {
-      const rec = { id: b ? b.id : uid(), title: x.title.trim(), bookBy: x.bookBy, assignee: x.assignee, booked: !!x.booked, cost: parseMoney(x.cost), ref: x.ref.trim(), tip: x.tip.trim(), food: !!x.food };
+      const rec = { id: b ? b.id : uid(), title: x.title.trim(), bookBy: x.bookBy, assignee: x.assignee, booked: !!x.booked, cost: parseMoney(x.cost), ref: x.ref.trim(), tip: x.tip.trim(), food: !!x.food,
+        // a hand-picked date stops it following the trip dates
+        ...(b && b.lead != null ? { lead: b.lead, auto: x.bookBy === b.bookBy ? b.auto : false } : {}) };
       if (b) Object.assign(b, rec); else state.bookings.push(rec);
       commit();
       toast(b ? 'Booking updated' : 'Booking added');
@@ -2396,6 +2601,16 @@ const A = {
     });
   },
 
+  jumpPocket: (el) => { const t = document.getElementById('pocket-' + el.dataset.v); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
+  sayPhrase: (el) => {
+    const x = CITY.pocket.phrases.items[+el.dataset.i];
+    if (!x || !canSpeak()) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(x.say.replace(/[()]/g, '').replace(/\//g, ','));
+    u.lang = CITY.pocket.lang;
+    u.rate = 0.85;
+    speechSynthesis.speak(u);
+  },
   jumpDay: (el) => { const t = document.getElementById('day-' + el.dataset.day); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
   addItem: (el) => itemSheet(null, el.dataset.day),
   editItem: (el) => itemSheet(state.itinerary.find((x) => x.id === el.dataset.id)),
@@ -2410,6 +2625,10 @@ const A = {
 
   budgetView: (el) => { ui.budgetView = el.dataset.v; render(); },
   addExpense: () => { if (state.guests.length) expenseSheet(null); },
+  logTax: () => {
+    const t = touristTax();
+    expenseSheet(null, { desc: `Tourist tax (${t.stay.label}, ${pl(t.adults, 'adult')} × ${pl(t.nights, 'night')})`.slice(0, 90), amount: moneyStr(t.total), category: 'stay', ...(TIP ? { tip: '0' } : {}) });
+  },
   editExpense: (el) => expenseSheet(state.expenses.find((x) => x.id === el.dataset.id)),
   markPaid: (el) => {
     const from = el.dataset.from, to = el.dataset.to, amount = +el.dataset.amount;
@@ -2469,6 +2688,8 @@ const AFTER = {
     const s = parseISO(state.trip.start), e = parseISO(state.trip.end);
     if (s && (!e || e < s)) state.trip.end = state.trip.start;
     if (s && e && diffDays(s, e) > 59) state.trip.end = isoOf(addDays(s, 59));
+    // bookings with a lead time ("book 60 days ahead") move with the trip unless someone set a date by hand
+    if (s) state.bookings.forEach((b) => { if (b.lead != null && b.auto !== false) b.bookBy = isoOf(addDays(s, -b.lead)); });
   },
   celebrateBooked: (el) => { if (el.checked) { confetti(el); toast('Marked as booked'); } },
   celebratePacked: (el) => {
@@ -2481,7 +2702,7 @@ const AFTER = {
 
 function applyBind(el) {
   const [col, id, field] = el.dataset.bind.split(':');
-  const obj = col === 'trip' ? state.trip : (state[col] || []).find((x) => x.id === id);
+  const obj = col === 'trip' ? state.trip : col === 'tax' ? state.tax : (state[col] || []).find((x) => x.id === id);
   if (!obj) return;
   let v = el.type === 'checkbox' ? el.checked : el.value;
   if (el.dataset.type === 'money') v = parseMoney(v);
@@ -2935,6 +3156,7 @@ async function onStartSubmit(e) {
   if (!VIEWS[tab]) { try { tab = localStorage.getItem(TAB_KEY) || 'home'; } catch (e) { tab = 'home'; } }
   ui.tab = VIEWS[tab] ? tab : 'home';
   if (SYNC_ENABLED) {
+    probeAssets().then(() => { if (ASSETS.size) render(); });
     const id = tripIdFromUrl();
     if (id) startSync(id); else showStart();
     return;

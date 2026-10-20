@@ -1,0 +1,27 @@
+rules_version = '2';
+// Security rules for the Paris Firebase project (paste these into
+// Firebase console → Firestore Database → Rules, then Publish).
+// Change CHANGE-ME to the access code you put in buyers' downloads.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /trips/{tripId} {
+      // Anyone with the trip link can open it; nobody can list every trip.
+      allow get: if true;
+      allow list: if false;
+
+      // Starting a trip needs the access code from the download.
+      allow create: if tripId.matches('^[A-Za-z0-9]{8,32}$')
+        && request.resource.data.code == 'CHANGE-ME'
+        && request.resource.data.edition == 'paris'
+        && request.resource.data.keys().hasOnly(['code', 'edition', 'rev', 'data', 'createdAt', 'updatedAt'])
+        && request.resource.data.data is map;
+
+      // Group edits can only change the trip itself, one version at a time.
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['data', 'rev', 'updatedAt'])
+        && request.resource.data.rev == resource.data.rev + 1
+        && request.resource.data.data is map;
+
+      allow delete: if false;
+    }
+  }
+}
