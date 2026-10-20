@@ -4,11 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FBF6EC">
-<meta name="description" content="Booked & Busy — your Rome group-trip command center.">
+<meta name="description" content="Booked & Busy: your group trip planner for Rome. Everyone on the same page.">
 <title>Booked &amp; Busy · Rome</title>
 <!--
   Booked & Busy — Rome edition
-  Everything lives in this one file and saves to this browser only.
+  Everyone on the same page.
+
+  Without a Firebase config (BB_FIREBASE below) everything saves to this browser only.
+  With one, each trip lives at its own link and syncs live for the whole group.
   Optional custom art: put PNGs next to this file and they will be used
   automatically (emoji are shown otherwise):
     images/hero.jpg              hero banner on the Home page
@@ -37,7 +40,7 @@
 </div>
 <div class="toasts" id="toasts" aria-live="polite"></div>
 <input type="file" id="filePick" accept="application/json,.json" hidden>
-<input type="file" id="photoPick" accept="image/*" hidden>
+<div id="overlay"></div>
 <script>
 /*__SCRIPT__*/
 </script>
