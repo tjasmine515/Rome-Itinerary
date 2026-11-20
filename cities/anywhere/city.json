@@ -5,7 +5,14 @@
   "anywhere": true,
   "mockCode": "ANYWHERE",
   "codeUpperCase": true,
-  "firebase": null,
+  "firebase": {
+    "apiKey": "AIzaSyCM0hmAfa2dfMkcnnz0dXzD2DhU5X5r1y0",
+    "authDomain": "anywhere-edition.firebaseapp.com",
+    "projectId": "anywhere-edition",
+    "storageBucket": "anywhere-edition.firebasestorage.app",
+    "messagingSenderId": "431113515077",
+    "appId": "1:431113515077:web:20f2d75827e1ee63db732c"
+  },
   "fonts": [
     ["Fraunces", 500, "normal", "fraunces-latin-500-normal.woff2"],
     ["Fraunces", 600, "normal", "fraunces-latin-600-normal.woff2"],
