@@ -1,3 +1,4 @@
 node_modules
 tests/out
 *.zip
+marketing/tools/node_modules
