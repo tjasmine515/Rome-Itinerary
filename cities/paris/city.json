@@ -3,6 +3,7 @@
   "name": "Paris",
   "localName": "Paris",
   "mockCode": "PARIS",
+  "codeUpperCase": true,
   "firebase": null,
   "fonts": [
     ["Playfair Display", 500, "normal", "playfair-display-latin-500-normal.woff2"],

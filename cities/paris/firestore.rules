@@ -1,7 +1,8 @@
 rules_version = '2';
 // Security rules for the Paris Firebase project (paste these into
 // Firebase console → Firestore Database → Rules, then Publish).
-// Change CHANGE-ME to the access code you put in buyers' downloads.
+// Change CHANGE-ME to the access code you put in buyers' downloads, in CAPITALS.
+// The Paris site capitalizes whatever buyers type, so lowercase still works.
 service cloud.firestore {
   match /databases/{database}/documents {
     match /trips/{tripId} {

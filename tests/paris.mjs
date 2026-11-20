@@ -14,7 +14,7 @@ await A.fill('#startForm [name=me]', 'Maya');
 await A.fill('#startForm [name=code]', 'WRONG');
 await A.click('#startForm button[type=submit]'); await A.waitForTimeout(500);
 ok((await A.textContent('#startErr')).includes('access code'), 'wrong access code is refused');
-await A.fill('#startForm [name=code]', 'PARIS');
+await A.fill('#startForm [name=code]', ' paris '); // lowercase + stray spaces should still work
 await A.click('#startForm button[type=submit]'); await A.waitForTimeout(1200);
 const url = A.url(); ok(/trip=/.test(url), 'trip created: ' + url);
 const B = await ctx.newPage(); B.on('pageerror', (e) => errs.push(e.message));

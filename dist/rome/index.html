@@ -3122,7 +3122,9 @@ async function onStartSubmit(e) {
   const fd = Object.fromEntries(new FormData(f));
   const name = (fd.name || '').trim() || S.blankTripName;
   const me = (fd.me || '').trim();
-  const code = (fd.code || '').trim();
+  let code = (fd.code || '').trim();
+  // cities whose access code is stored in capitals accept it typed in any case, with stray spaces
+  if (CITY.codeUpperCase) code = code.replace(/\s+/g, '').toUpperCase();
   const err = $('#startErr');
   if (!me) { err.textContent = 'Add your name so the group knows who started the trip.'; return; }
   if (!code) { err.textContent = 'Enter the access code from your download.'; return; }
