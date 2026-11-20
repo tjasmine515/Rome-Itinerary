@@ -885,6 +885,22 @@ table.ledger { width: 100%; border-collapse: collapse; font-size: 14px; min-widt
 .day-chip { padding: 3px 12px; }
 .trip-details .card-head { margin-bottom: 8px; }
 @media (max-width: 420px) { .price-row.editable { grid-template-columns: minmax(0, 1fr) 88px 32px; } .price-row.editable .pg { display: none; } }
+/* trip-type suggestions (Anywhere) */
+.sugg { margin-bottom: 16px; padding: 0; overflow: hidden; }
+.sugg-head { width: 100%; display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 0; background: none; text-align: left; font: inherit; color: inherit; }
+.sugg-head .em { font-size: 24px; }
+.sugg-head b { display: block; font: 600 17px/1.2 var(--f-display); }
+.sugg-head small { display: block; font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
+.sugg-head .chev { font: 700 12.5px var(--f-body); color: var(--ochre); }
+.sugg-list { list-style: none; margin: 0; padding: 0 16px 8px; }
+.sugg-list li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px dashed var(--line); }
+.sugg-list .sl { flex: 1; min-width: 0; }
+.sugg-list .sl b { display: block; font-weight: 600; font-size: 14.5px; }
+.sugg-list .sl small { display: block; font-size: 12.5px; color: var(--ink-2); }
+.sugg-list .btn { flex: none; }
+.sugg-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 10px 0 2px; font-size: 12.5px; }
+.sugg-chips .chip { cursor: pointer; font-size: 12.5px; }
+.sugg-chips .chip:hover { background: var(--mint); border-color: transparent; }
 
 /* Rome theme: cream base + Trevi-inspired teal accents. */
 :root {
@@ -958,11 +974,12 @@ const SETTLE_CAT = { id: 'settlement', label: 'Paid back', emoji: '💸', color:
 
 const PACK_CATS = CITY.packCats;
 const PACK_TEMPLATE = CITY.packTemplate;
-/** Packing starter list for a trip. Anywhere adds the trip type's extras as their own section. */
-function packTemplateFor(st) {
+/** Packing starter list for a trip. Anywhere starts the "For this trip" section empty (its items are suggestions),
+ *  except in the sample trip, which shows them filled in. */
+function packTemplateFor(st, withExtras = false) {
   if (!CITY.anywhere) return PACK_TEMPLATE;
   const tt = (CITY.tripTypes || {})[st && st.trip && st.trip.type] || {};
-  return { ...PACK_TEMPLATE, extras: tt.pack || [] };
+  return { ...PACK_TEMPLATE, extras: withExtras ? tt.pack || [] : [] };
 }
 
 const DREAM_KINDS = CITY.dreamKinds;
@@ -1091,7 +1108,7 @@ function makeSeed() {
   const packing = [];
   g.forEach((guest, gi) => {
     let k = 0;
-    const tpl = packTemplateFor({ trip: { type: sm.tripType } });
+    const tpl = packTemplateFor({ trip: { type: sm.tripType } }, true);
     PACK_CATS.forEach((c) => (tpl[c.id] || []).forEach((text) => {
       packing.push({ id: uid(), guestId: guest.id, cat: c.id, text, done: ((k++ * 7) % 10) / 10 < sm.packedRate[gi] });
     }));
@@ -1120,33 +1137,21 @@ function cityExtras() {
   return out;
 }
 
-/** Ideas, bookings, price notes and tips from a trip type's starter pack (Anywhere). */
-function starterPack(type, startISO) {
-  const tt = (CITY.tripTypes || {})[type] || {};
-  const s = parseISO(startISO);
-  return {
-    activities: (tt.ideas || []).map((a) => ({ id: uid(), emoji: a.emoji || '', title: a.title, note: a.note || '', tags: a.tags || [], book: a.book || '', closed: a.closed || [], votes: [], custom: false })),
-    bookings: (tt.bookings || []).map((b) => ({ id: uid(), title: b.title, bookBy: s && b.lead != null ? isoOf(addDays(s, -b.lead)) : '', assignee: '', booked: false, cost: 0, ref: '', food: !!b.food, tip: b.tip || '', lead: b.lead ?? null, auto: true, sellsOut: !!b.sellsOut, closed: [] })),
-    prices: (tt.prices || []).map((x) => ({ id: uid(), label: x.label, amount: x.amount || 0, note: x.note || '' })),
-    tips: (tt.tips || []).map((x) => ({ id: uid(), head: x.head, text: x.text || '' })),
-  };
-}
-
 /** Blank trip that keeps the city know-how (ideas, booking tips) but none of the sample people or money. */
 function makeBlank(type, keep) {
   const s = makeSeed();
   if (CITY.anywhere) {
     const t = type || s.trip.type;
-    const pack = starterPack(t, '');
-    // a blank trip starts clean; "Start over" keeps the group's destination and money settings
+    // a blank trip starts clean (suggestions for the trip type are one tap away on each tab);
+    // "Start over" keeps the group's destination and money settings
     const k = keep || {};
     return {
       ...s,
       trip: { name: S.blankTripName, budget: 0, start: '', end: '', type: t, destination: k.destination || '',
         currency: k.currency || s.trip.currency, home: k.home || s.trip.home, local: k.local || '', rate: k.rate || '', tip: k.tip || '', lang: k.lang || '' },
       guests: [], itinerary: [], expenses: [], packing: [], journal: [], dream: [],
-      activities: pack.activities, bookings: pack.bookings, prices: pack.prices,
-      ...cityExtras(), tips: pack.tips,
+      activities: [], bookings: [], prices: [],
+      ...cityExtras(),
     };
   }
   return {
@@ -1336,8 +1341,47 @@ function tripDetailsCard() {
       <label class="field"><span>Group pays in</span><select class="select" data-bind="trip::home" data-after="ccy">${ccyOptions(tr.home)}</select></label>
       <label class="field"><span>Money at the destination</span><select class="select" data-bind="trip::local" data-after="ccy">${ccyOptions(tr.local, 'Same currency')}</select></label>
     </div>
-    <button type="button" class="btn small" style="margin-top:12px" data-action="addStarter">${svgIcon('plus')} Add ${esc((tt.label || 'trip').toLowerCase())} starter ideas</button>
+    ${(tt.ideas || []).length ? `<p class="faint" style="font-size:12.5px;margin-top:10px">Suggestions for a ${esc(tt.label.toLowerCase())} show up in Group Picks, Bookings, Packing and Trip Essentials. Add only the ones you want.</p>` : ''}
   </div>`;
+}
+
+/* ---------- Anywhere: trip-type suggestions, added one at a time ---------- */
+const tripType = () => (CITY.tripTypes || {})[state.trip.type] || {};
+const suggIn = (kind) => (CITY.anywhere ? tripType()[kind] || [] : []);
+const sameText = (a, b) => fold(a).trim() === fold(b).trim();
+function suggAdded(kind, x) {
+  if (kind === 'ideas') return state.activities.some((a) => sameText(a.title, x.title));
+  if (kind === 'bookings') return state.bookings.some((b) => sameText(b.title, x.title));
+  if (kind === 'tips') return state.tips.some((t) => sameText(t.head, x.head));
+  if (kind === 'prices') return state.prices.some((p) => sameText(p.label, x.label));
+  return state.packing.some((p) => p.guestId === ui.packGuest && sameText(p.text, x));
+}
+const SUGG_HAVE = { ideas: () => state.activities.length, bookings: () => state.bookings.length, tips: () => state.tips.length };
+/** A list of trip-type suggestions, each with its own Add button. Starts open while the tab is empty. */
+function suggestCard(kind, line) {
+  const list = suggIn(kind);
+  if (!list.length) return '';
+  const tt = tripType();
+  ui.sugg = ui.sugg || {};
+  const open = ui.sugg[kind] ?? !(SUGG_HAVE[kind] ? SUGG_HAVE[kind]() : 0);
+  const left = list.filter((x) => !suggAdded(kind, x)).length;
+  return `<div class="card sugg" data-key="sugg-${kind}">
+    <button type="button" class="sugg-head" data-action="toggleSugg" data-kind="${kind}" aria-expanded="${open}">
+      <span class="em" aria-hidden="true">${tt.emoji}</span><span style="flex:1;min-width:0"><b>Suggestions for a ${esc(tt.label.toLowerCase())}</b><small>${left ? `${pl(left, 'idea')} you haven’t added` : 'You’ve added them all'} · change the trip type on Home</small></span><span class="chev">${open ? 'Hide' : 'Show'}</span></button>
+    ${open ? `<ul class="sugg-list">${list.map((x, i) => { const added = suggAdded(kind, x); return `<li data-key="sg-${kind}-${i}">${line(x)}
+      <button type="button" class="btn small ${added ? 'ghost' : ''}" data-action="addSugg" data-kind="${kind}" data-i="${i}" ${added ? 'disabled' : ''}>${added ? '✓ Added' : `${svgIcon('plus')} Add`}</button></li>`; }).join('')}</ul>` : ''}
+  </div>`;
+}
+const suggLines = {
+  ideas: (x) => `<span class="sl"><b>${esc(x.emoji || '')} ${esc(x.title)}</b>${x.note ? `<small>${esc(x.note)}</small>` : ''}</span>`,
+  bookings: (x) => `<span class="sl"><b>${esc(x.title)}</b><small>${x.lead != null ? `Book about ${pl(x.lead, 'day')} ahead` : ''}${x.sellsOut ? ' · often sells out' : ''}</small></span>`,
+  tips: (x) => `<span class="sl"><b>${esc(x.head)}</b>${x.text ? `<small>${esc(x.text)}</small>` : ''}</span>`,
+};
+/** Small "+ item" chips for short suggestions (packing extras, price notes). */
+function suggChips(kind, label) {
+  const list = suggIn(kind).map((x, i) => ({ x, i })).filter(({ x }) => !suggAdded(kind, x));
+  if (!list.length) return '';
+  return `<div class="sugg-chips" data-key="sgc-${kind}"><span class="faint">Ideas for a ${esc(tripType().label.toLowerCase())}:</span>${list.map(({ x, i }) => `<button type="button" class="chip outline" data-action="addSugg" data-kind="${kind}" data-i="${i}">+ ${esc(label(x))}</button>`).join('')}</div>`;
 }
 
 /** The trip's place name: the city for city editions, whatever the group typed for Anywhere. */
@@ -1881,6 +1925,7 @@ function viewVote() {
   return viewHead('vote', `Group Picks`, S.voteLede || 'Vote on what you want to do. The most popular ideas move to the top.',
     `<button type="button" class="btn" data-action="addActivity">${svgIcon('plus')} Suggest an idea</button>`) + `
   ${CITY.anywhere && !state.trip.start ? `<div style="margin-bottom:16px">${datePollCard()}</div>` : ''}
+  ${suggestCard('ideas', suggLines.ideas)}
   <div class="card" style="margin-bottom:16px">
     <div class="kicker" style="margin-bottom:10px">Who’s voting?</div>
     <div class="gchips">
@@ -2181,6 +2226,7 @@ function priceNotesCard(pg, n) {
       <span class="pg num">${n > 1 ? `${moneyIn(x.amount * n, sy)}<small>for ${n}</small>` : ''}</span>
       <button type="button" class="icon-btn danger" data-action="removePrice" data-id="${x.id}" aria-label="Remove ${esc(x.label)}">${svgIcon('x')}</button>
     </div>`).join('')}</div>` : '<p class="faint" style="padding:6px 0 4px">No prices yet. Add ticket prices, taxi fares, the cost of a coffee…</p>'}
+    ${suggChips('prices', (x) => x.label)}
     <form class="add-inline" data-form="addPrice"><input class="input" name="label" placeholder="e.g. Museum ticket" maxlength="60" aria-label="What it is" style="flex:2"><span class="money-input" style="flex:1"><span class="cur">${esc(sy)}</span><input class="input" name="amount" inputmode="decimal" placeholder="0" aria-label="Price"></span><button type="submit" class="icon-btn" aria-label="Add price" style="border:1.5px solid var(--line-2)">${svgIcon('plus')}</button></form>
     <p class="price-note"><span class="hand">${esc(pg.warning)}</span></p>
   </div>`;
@@ -2229,6 +2275,7 @@ function viewBookings() {
   const diets = dietNotes();
   return viewHead('bookings', `Bookings`, 'Popular spots sell out. Red means due within 3 days or overdue, amber means within two weeks, and green means there’s time.',
     `<button type="button" class="btn primary" data-action="addBooking">${svgIcon('plus')} Add a booking</button>`) + `
+  ${suggestCard('bookings', suggLines.bookings)}
   <div class="urgency-summary">
     <span class="chip red"><span class="dot red"></span>${counts.red} urgent</span>
     <span class="chip amber"><span class="dot amber"></span>${counts.amber} coming up</span>
@@ -2300,6 +2347,7 @@ function viewPacking() {
         <label class="txt" for="pk-${p.id}">${esc(p.text)}</label>
         <button type="button" class="icon-btn danger" data-action="removePack" data-id="${p.id}" aria-label="Remove ${esc(p.text)}">${svgIcon('x')}</button>
       </div>`).join('')}
+      ${CITY.anywhere && c.id === 'extras' ? suggChips('pack', (x) => x) : ''}
       <form class="add-inline" data-form="addPack" data-cat="${c.id}">
         <label class="sr-only" for="add-${c.id}">Add to ${c.label}</label>
         <input class="input" id="add-${c.id}" name="text" placeholder="Add an item…" autocomplete="off" maxlength="100">
@@ -2456,6 +2504,7 @@ function viewEssentials() {
   <section class="section pocket-sec" id="pocket-tips" data-key="ess-tips">
     <h2 class="section-title">${art('bulb', '💡')}Local tips</h2>
     <ol class="custom-list">${state.tips.map((x, i) => `<li class="card" data-key="tp-${x.id}"><span class="vote-rank num">${i + 1}</span><div style="flex:1;min-width:0"><b>${esc(x.head)}</b>${x.text ? `<p>${esc(x.text)}</p>` : ''}</div><button type="button" class="icon-btn danger" data-action="removeTip" data-id="${x.id}" aria-label="Remove tip">${svgIcon('x')}</button></li>`).join('')}</ol>
+    <div style="margin-top:10px">${suggestCard('tips', suggLines.tips)}</div>
     <form class="card" data-form="addTip" style="margin-top:10px"><div class="stack" style="gap:8px">
       <input class="input" name="head" placeholder="Tip, e.g. Restaurants open late" maxlength="90" aria-label="Tip">
       <input class="input" name="text" placeholder="More detail (optional)" maxlength="200" aria-label="More detail">
@@ -3004,18 +3053,39 @@ const A = {
 
   budgetView: (el) => { ui.budgetView = el.dataset.v; render(); },
   addExpense: () => { if (state.guests.length) expenseSheet(null); },
-  addStarter: () => {
-    const tt = CITY.tripTypes[state.trip.type] || {};
-    const pack = starterPack(state.trip.type, state.trip.start);
-    const has = (list, t) => list.some((x) => fold(x.title || x.label || x.head) === fold(t));
-    let n = 0;
-    pack.activities.forEach((a) => { if (!has(state.activities, a.title)) { state.activities.push(a); n++; } });
-    pack.bookings.forEach((b) => { if (!has(state.bookings, b.title)) { state.bookings.push(b); n++; } });
-    pack.prices.forEach((x) => { if (!has(state.prices, x.label)) { state.prices.push(x); n++; } });
-    pack.tips.forEach((x) => { if (!has(state.tips, x.head)) { state.tips.push(x); n++; } });
-    state.guests.forEach((g) => (tt.pack || []).forEach((text) => { if (!state.packing.some((x) => x.guestId === g.id && x.text === text)) { state.packing.push({ id: uid(), guestId: g.id, cat: 'extras', text, done: false }); n++; } }));
+  toggleSugg: (el) => {
+    const k = el.dataset.kind;
+    ui.sugg = ui.sugg || {};
+    ui.sugg[k] = el.getAttribute('aria-expanded') !== 'true';
+    render();
+  },
+  addSugg: (el) => {
+    const kind = el.dataset.kind;
+    const x = suggIn(kind)[+el.dataset.i];
+    if (!x || suggAdded(kind, x)) return;
+    ui.sugg = ui.sugg || {};
+    if (SUGG_HAVE[kind]) ui.sugg[kind] = true; // keep the list open while they pick a few
+    let name = '';
+    if (kind === 'ideas') {
+      state.activities.push({ id: uid(), emoji: x.emoji || '', title: x.title, note: x.note || '', tags: x.tags || [], book: x.book || '', closed: [], votes: [], custom: false });
+      name = x.title;
+    } else if (kind === 'bookings') {
+      const start = parseISO(state.trip.start);
+      state.bookings.push({ id: uid(), title: x.title, bookBy: start && x.lead != null ? isoOf(addDays(start, -x.lead)) : '', assignee: '', booked: false, cost: 0, ref: '', food: !!x.food, tip: x.tip || '', lead: x.lead ?? null, auto: true, sellsOut: !!x.sellsOut, closed: [] });
+      name = x.title;
+    } else if (kind === 'tips') {
+      state.tips.push({ id: uid(), head: x.head, text: x.text || '' });
+      name = x.head;
+    } else if (kind === 'prices') {
+      state.prices.push({ id: uid(), label: x.label, amount: x.amount || 0, note: '' });
+      name = x.label;
+    } else if (kind === 'pack') {
+      const targets = ui.packScope === 'all' ? state.guests.map((g) => g.id) : [ui.packGuest];
+      targets.forEach((gid) => { if (!state.packing.some((p) => p.guestId === gid && sameText(p.text, x))) state.packing.push({ id: uid(), guestId: gid, cat: 'extras', text: x, done: false }); });
+      name = x;
+    }
     commit();
-    toast(n ? `Added ${pl(n, 'starter item')} for a ${tt.label ? tt.label.toLowerCase() : 'trip'}` : 'You already have all of those');
+    toast(`Added “${name}”`);
   },
   feeMode: (el) => { state.tax.mode = el.dataset.v; commit(); },
   logFees: () => {
@@ -3548,7 +3618,7 @@ function showStart() {
       <label class="field"><span>Access code <small class="faint">(from your download)</small></span><input class="input" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
       ${CITY.anywhere ? setupFields() : ''}
       <div class="opt" role="radiogroup" aria-label="Start from">
-        <label><input type="radio" name="from" value="blank" checked><b>Blank trip</b>${CITY.anywhere ? 'Starts with ideas and tips for your trip type' : `Keeps the ${CITY.name} ideas and booking tips`}</label>
+        <label><input type="radio" name="from" value="blank" checked><b>Blank trip</b>${CITY.anywhere ? 'A clean slate, with suggestions a tap away' : `Keeps the ${CITY.name} ideas and booking tips`}</label>
         <label><input type="radio" name="from" value="sample"><b>Sample trip</b>A filled-in example to explore</label>
       </div>
       <div class="err" id="startErr" role="alert"></div>

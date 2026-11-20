@@ -29,8 +29,8 @@ await A.selectOption('#startForm [name=local]', 'MXN');
 await A.click('#startForm button[type=submit]'); await A.waitForTimeout(1500);
 let st = await S(A);
 ok(st.trip.destination === 'Tulum' && st.trip.type === 'beach' && st.trip.home === 'USD' && st.trip.local === 'MXN' && st.trip.currency === '$', `trip saved: ${st.trip.destination}, ${st.trip.type}, ${st.trip.home}→${st.trip.local}`);
-ok(st.activities.some((a) => a.title === 'Boat or catamaran day'), 'beach starter ideas loaded');
-ok(st.packing.some((x) => x.cat === 'extras' && x.text === 'Reef-safe sunscreen'), 'beach packing extras loaded');
+ok(st.activities.length === 0 && st.bookings.length === 0 && st.tips.length === 0 && st.prices.length === 0, 'blank trip starts empty (no ideas, bookings, tips or prices)');
+ok(!st.packing.some((x) => x.cat === 'extras'), 'no trip-type packing items added automatically');
 ok(!st.trip.start, 'no dates yet');
 await A.evaluate(() => { localStorage.setItem(WELCOME_KEY + ':' + SYNC.tripId, '1'); });
 
@@ -53,8 +53,22 @@ await A.click('.date-poll [data-action=dateVote] >> nth=0'); await A.waitForTime
 await A.click('.date-poll [data-action=pickDates] >> nth=0'); await A.waitForTimeout(600);
 st = await S(A);
 ok(st.trip.start === '2027-03-10' && st.trip.end === '2027-03-14', `picked dates set the trip: ${st.trip.start} → ${st.trip.end}`);
+// --- suggestions, one at a time ---
+await tab(A, 'vote');
+ok((await A.textContent('[data-key=sugg-ideas]')).includes('Suggestions for a beach trip'), 'Group Picks shows beach-trip suggestions');
+await A.click('[data-key=sugg-ideas] [data-action=addSugg] >> nth=0'); await A.waitForTimeout(400);
+st = await S(A);
+ok(st.activities.length === 1 && st.activities[0].title === 'Boat or catamaran day', 'adding one suggestion adds just that idea');
+ok((await A.textContent('[data-key="sg-ideas-0"]')).includes('Added'), 'the added suggestion is marked “Added”');
+await tab(A, 'bookings');
+await A.click('[data-key=sugg-bookings] [data-action=addSugg] >> nth=0'); await A.waitForTimeout(400);
+st = await S(A);
 const boat = st.bookings.find((x) => x.title === 'Boat or catamaran day');
-ok(boat && boat.bookBy === '2027-02-17', `book-by follows lead time (21 days before): ${boat && boat.bookBy}`);
+ok(boat && boat.bookBy === '2027-02-17' && boat.sellsOut, `suggested booking follows its lead time (21 days before): ${boat && boat.bookBy}`);
+await tab(A, 'packing');
+await A.click('[data-key=sgc-pack] [data-action=addSugg] >> nth=0'); await A.waitForTimeout(400);
+st = await S(A);
+ok(st.packing.filter((x) => x.cat === 'extras').length === 1, 'packing suggestion chip adds one item');
 
 // --- multi-currency expense ---
 await tab(A, 'budget');
@@ -127,13 +141,21 @@ await A.click('[data-action=pollVote] >> nth=1'); await A.waitForTimeout(400);
 st = await S(A);
 ok(st.polls.length === 1 && st.polls[0].options[1].votes.length === 1, 'quick poll created and voted');
 
-// --- switch trip type, add its starter pack ---
+// --- switch trip type: suggestions change, nothing is added or removed ---
 await tab(A, 'home');
-const before = (await S(A)).activities.length;
+const before = (await S(A)).activities.map((a) => a.title).join('|');
 await A.selectOption('[data-bind="trip::type"]', 'bachelorette'); await A.waitForTimeout(300);
-await A.click('[data-action=addStarter]'); await A.waitForTimeout(500);
 st = await S(A);
-ok(st.activities.length > before && st.activities.some((a) => a.title === 'Boat party') && st.activities.some((a) => a.title === 'Boat or catamaran day'), `bachelorette ideas added, beach ideas kept (${before} → ${st.activities.length})`);
+ok(st.activities.map((a) => a.title).join('|') === before, 'switching trip type leaves the ideas alone');
+await tab(A, 'vote');
+if ((await A.getAttribute('[data-key=sugg-ideas] .sugg-head', 'aria-expanded')) !== 'true') { await A.click('[data-key=sugg-ideas] .sugg-head'); await A.waitForTimeout(300); }
+const bt = (await A.textContent('[data-key=sugg-ideas]')).replace(/\s+/g, ' ');
+ok(bt.includes('bachelorette') && bt.includes('Boat party'), 'suggestions switch to bachelorette ones: ' + bt.slice(0, 160));
+await tab(A, 'home');
+await A.selectOption('[data-bind="trip::type"]', 'other'); await A.waitForTimeout(300);
+await tab(A, 'vote');
+ok(!(await A.isVisible('[data-key=sugg-ideas]')), '“Other” trip type shows no suggestions');
+await tab(A, 'home');
 ok((await A.textContent('.stamp')).includes('Tulum'), 'countdown stamp shows the destination');
 
 // --- everything reached person B ---

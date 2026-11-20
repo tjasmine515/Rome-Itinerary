@@ -310,7 +310,8 @@
         { "head": "Log fuel and tolls as you go.", "text": "Split them evenly in Budget at the end." }
       ],
       "prices": [{ "label": "Fuel per fill-up" }, { "label": "Campsite per night" }, { "label": "Park entry" }, { "label": "Diner meal per person" }]
-    }
+    },
+    "other": { "label": "Other", "emoji": "🧳" }
   },
 
   "sample": {

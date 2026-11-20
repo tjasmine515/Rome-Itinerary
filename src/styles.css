@@ -854,3 +854,19 @@ table.ledger { width: 100%; border-collapse: collapse; font-size: 14px; min-widt
 .day-chip { padding: 3px 12px; }
 .trip-details .card-head { margin-bottom: 8px; }
 @media (max-width: 420px) { .price-row.editable { grid-template-columns: minmax(0, 1fr) 88px 32px; } .price-row.editable .pg { display: none; } }
+/* trip-type suggestions (Anywhere) */
+.sugg { margin-bottom: 16px; padding: 0; overflow: hidden; }
+.sugg-head { width: 100%; display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 0; background: none; text-align: left; font: inherit; color: inherit; }
+.sugg-head .em { font-size: 24px; }
+.sugg-head b { display: block; font: 600 17px/1.2 var(--f-display); }
+.sugg-head small { display: block; font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
+.sugg-head .chev { font: 700 12.5px var(--f-body); color: var(--ochre); }
+.sugg-list { list-style: none; margin: 0; padding: 0 16px 8px; }
+.sugg-list li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px dashed var(--line); }
+.sugg-list .sl { flex: 1; min-width: 0; }
+.sugg-list .sl b { display: block; font-weight: 600; font-size: 14.5px; }
+.sugg-list .sl small { display: block; font-size: 12.5px; color: var(--ink-2); }
+.sugg-list .btn { flex: none; }
+.sugg-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 10px 0 2px; font-size: 12.5px; }
+.sugg-chips .chip { cursor: pointer; font-size: 12.5px; }
+.sugg-chips .chip:hover { background: var(--mint); border-color: transparent; }

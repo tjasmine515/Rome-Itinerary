@@ -46,14 +46,10 @@
     var(--a-cream);
 }
 
-/* ---- gingham bands: cover header, under the logo, Essentials header ---- */
+/* ---- gingham bands: cover header and Essentials header ---- */
 .hero-photo::before {
   content: ""; position: absolute; left: 0; right: 0; top: 0; height: 16px; z-index: 2;
   background: var(--pattern); border-bottom: 1.5px solid var(--a-ink);
-}
-.side-brand::after {
-  content: ""; display: block; height: 16px; margin-top: 16px; background: var(--pattern);
-  border-top: 1.5px solid var(--a-ink); border-bottom: 1.5px solid var(--a-ink);
 }
 .pocket-band { height: 16px; border-radius: 0; border-top: 1.5px solid var(--a-ink); border-bottom: 1.5px solid var(--a-ink); }
 
