@@ -24,7 +24,7 @@ const offline = (html) => html
   .replace(/const BB_FIREBASE = \{[\s\S]*?\};/, 'const BB_FIREBASE = null;')
   .replace(/"firebase":\{[^}]*\}/, '"firebase":null');
 
-const TABS = ['home', 'guests', 'dashboard', 'vote', 'itinerary', 'budget', 'bookings', 'packing', 'dream', 'memories'];
+const TABS = ['home', 'guests', 'dashboard', 'vote', 'itinerary', 'budget', 'bookings', 'packing', 'pocket', 'dream', 'memories'];
 const SCENES = [
   ...TABS.map((t) => ({ name: t, hash: t })),
   { name: 'budget-split', hash: 'budget', click: '[data-action=budgetView][data-v=split]' },

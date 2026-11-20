@@ -8,6 +8,7 @@ One shared app, one folder per city. Each city builds to its own single-file sit
 |-------|------------------------------------|---------------------------|
 | Rome  | bookedandbusyrome.netlify.app      | `booked-and-busy-d265f`   |
 | Paris | bookedandbusyparis.netlify.app     | its own project (see `cities/paris/city.json` → `firebase`) |
+| Anywhere | (to set up)                   | its own project (see `cities/anywhere/city.json` → `firebase`) |
 
 ## Layout
 
@@ -34,6 +35,17 @@ tests/paris.mjs     clicks through Paris: sharing, simultaneous edits, tax, tips
 Copy `cities/paris/` to `cities/<new>/`, edit `city.json`, `theme.css`, `head.html` and `hero.svg`, then `python3 build.py <new>`.
 Optional extras switch on only when `city.json` has them: `pocket` (pocket guide tab), `closures`, `bookFirst`, `gettingAround`, `budget.tipping`, `budget.touristTax`, `budget.prices`, `tabIcons`.
 Bookings with a `lead` (days before the trip) move their book-by date when the trip dates change.
+
+### Anywhere edition (`"anywhere": true`)
+
+The general planner. Instead of fixed city content, the trip creator picks a destination, a **trip type** (city break, beach, bachelorette, birthday, family, road trip) and currencies in setup; the trip type's starter pack (`tripTypes` in `city.json`) fills ideas, bookings, packing extras, price notes and local tips. Extra features it turns on:
+- typed-in destination everywhere (countdown stamp, wording), Trip details card on Home, "add starter ideas" for another trip type
+- group-set closed days on ideas/bookings, lead times and a "sells out" flag that feeds "Book these first"
+- multi-currency expenses (local or home currency at a group-entered rate), nightly fees calculator, group tip default, editable price notes
+- Trip Essentials tab (stay info, emergency info, phrase cards with read-aloud, local tips), guest travel details + Arrivals board, a location per itinerary day
+- date poll before dates are set, quick polls in Group Picks
+
+`tests/anywhere.mjs` clicks through all of it.
 
 ## Icons (Paris)
 

@@ -830,3 +830,27 @@ table.ledger { width: 100%; border-collapse: collapse; font-size: 14px; min-widt
 @media (min-width: 720px) { .fact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .fact .hand { font-size: 22px; color: var(--ochre); display: block; margin-bottom: 4px; line-height: 1.1; }
 .fact p { font-size: 14.5px; }
+
+/* ==========================================================================
+   Anywhere extras — setup trip types, polls, day locations, editable prices
+   ========================================================================== */
+.type-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.type-grid label { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; border: 1.5px solid var(--line-2); border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--ink-2); text-align: center; line-height: 1.15; }
+.type-grid .em { font-size: 20px; }
+.type-grid input { position: absolute; opacity: 0; pointer-events: none; }
+.type-grid label:has(input:checked) { border-color: var(--sage-deep); background: var(--mint); color: var(--ink); }
+.start-card .form-grid { gap: 10px; }
+.day-loc { display: inline-flex; align-items: center; gap: 2px; margin-left: 2px; }
+.day-loc .input { min-height: 30px; width: 150px; padding: 2px 6px; font: italic 500 15px var(--f-display); color: var(--ochre); }
+.poll-opt { padding: 10px 0; border-top: 1px dashed var(--line); display: flex; flex-direction: column; gap: 8px; }
+.poll-opt:first-of-type { border-top: 0; }
+.poll .poll-opt .btn { align-self: flex-start; }
+.add-dates { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.add-dates .input { width: auto; flex: 1 1 140px; min-height: 40px; }
+.price-row.editable { grid-template-columns: minmax(0, 1fr) 100px 62px 32px; }
+.price-row.editable .icon-btn { width: 32px; height: 32px; opacity: .5; }
+.price-row.editable:hover .icon-btn { opacity: 1; }
+.form-grid.travel { padding-top: 10px; border-top: 1px dashed var(--line); }
+.day-chip { padding: 3px 12px; }
+.trip-details .card-head { margin-bottom: 8px; }
+@media (max-width: 420px) { .price-row.editable { grid-template-columns: minmax(0, 1fr) 88px 32px; } .price-row.editable .pg { display: none; } }

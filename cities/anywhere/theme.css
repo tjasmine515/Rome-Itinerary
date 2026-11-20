@@ -1,0 +1,86 @@
+/* Anywhere theme: road-trip map and a picnic blanket.
+   Cream base, olive green, apricot, sand, dark olive text. The teal Booked & Busy logo stays as it is. */
+:root {
+  --a-cream: #F4ECDD;
+  --a-paper: #FFFAF1;
+  --a-olive: #6F7D4C;
+  --a-apricot: #EFA25B;
+  --a-sand: #C9B79C;
+  --a-ink: #333421;
+
+  --cream: var(--a-cream);
+  --cream-2: #EADFCB;
+  --paper: var(--a-paper);
+  --mint: #E6E9D8;                    /* soft olive wash: active tabs, calm chips */
+  --mint-2: #D3D9BF;
+  --sage: #A3B18A;
+  --sage-deep: #5E6B45;
+  --ochre: var(--a-olive);            /* buttons, kickers, highlights */
+  --ochre-soft: #FBE3C8;              /* apricot wash */
+  --espresso: var(--a-ink);
+  --ink: var(--a-ink);
+  --ink-2: rgba(51, 52, 33, .76);
+  --ink-3: rgba(51, 52, 33, .54);
+  --line: rgba(51, 52, 33, .13);
+  --line-2: rgba(51, 52, 33, .23);
+  --red: #B5533C;                     /* terracotta, only for "urgent" and "closed" */
+  --red-soft: #F6DCD2;
+  --amber: #D98B3A;
+  --amber-soft: #FBE6CC;
+  --green-soft: var(--mint);
+  --vibe-bg: #FBE3C8;
+  --vibe-ink: #8A4F1C;
+
+  --f-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --f-body: "DM Sans", "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
+
+  --shadow-1: 0 1px 0 rgba(51,52,33,.04), 0 2px 6px rgba(51,52,33,.07);
+  --shadow-2: 0 2px 0 rgba(51,52,33,.04), 0 10px 26px -8px rgba(51,52,33,.24);
+  --shadow-3: 0 24px 60px -20px rgba(51,52,33,.45);
+
+  /* Signature pattern: olive + cream gingham, like a picnic blanket. */
+  --pattern:
+    linear-gradient(90deg, rgba(111,125,76,.55) 50%, transparent 50%) 0 0 / 16px 16px,
+    linear-gradient(rgba(111,125,76,.55) 50%, transparent 50%) 0 0 / 16px 16px,
+    var(--a-cream);
+}
+
+/* ---- gingham bands: cover header, under the logo, Essentials header ---- */
+.hero-photo::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 16px; z-index: 2;
+  background: var(--pattern); border-bottom: 1.5px solid var(--a-ink);
+}
+.side-brand::after {
+  content: ""; display: block; height: 16px; margin-top: 16px; background: var(--pattern);
+  border-top: 1.5px solid var(--a-ink); border-bottom: 1.5px solid var(--a-ink);
+}
+.pocket-band { height: 16px; border-radius: 0; border-top: 1.5px solid var(--a-ink); border-bottom: 1.5px solid var(--a-ink); }
+
+/* ---- card tape: apricot paper tape (sand on the odd one) ---- */
+.washi::before, .start-card::before {
+  background: linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,0) 60%), var(--a-apricot);
+  opacity: .6; height: 22px; border: 0; box-shadow: none;
+}
+.washi.ochre-tape::before, .washi.mint-tape::before { background: linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,0) 60%), var(--a-sand); opacity: .75; }
+
+/* ---- colors the shared styles hard-code for Rome ---- */
+body::before { background-image: radial-gradient(rgba(111,125,76,.06) 1px, transparent 1px), radial-gradient(rgba(51,52,33,.035) 1px, transparent 1px); }
+.btn.primary:hover { box-shadow: 0 4px 0 -1px var(--a-ink); }
+.input:focus, .select:focus, .textarea:focus { box-shadow: 0 0 0 4px rgba(163,177,138,.35); }
+.input.bare:hover, .textarea.bare:hover { background: rgba(51,52,33,.03); }
+.vote-item.leader { border-color: rgba(111,125,76,.45); }
+.tile.t3 { background: #F1E6D3; }
+.tile.t4 { background: #E3E0CF; }
+.tip { background: var(--mint); color: var(--ink); }
+.hero-photo::after { background: linear-gradient(180deg, rgba(51,52,33,0) 35%, rgba(51,52,33,.45) 100%); }
+.postmark { border-color: rgba(51,52,33,.55); color: rgba(51,52,33,.65); }
+.postmark::before { border-color: rgba(51,52,33,.4); }
+.postmark .wave { stroke: rgba(51,52,33,.5); }
+.stamp-inner { background: var(--ochre-soft); border-color: var(--a-apricot); }
+.bottomnav { box-shadow: 0 -8px 24px -18px rgba(51,52,33,.4); }
+.polaroid { box-shadow: 0 1px 1px rgba(0,0,0,.05), 0 10px 20px -10px rgba(51,52,33,.35); }
+.sheet-backdrop { background: rgba(40,40,24,.45); }
+.pack-cat.extras { background: linear-gradient(180deg, var(--ochre-soft), var(--paper) 70%); }
+.phrase { border-left-color: var(--a-apricot); }
+.chip.ochre { background: #EEF0E2; color: var(--a-olive); }

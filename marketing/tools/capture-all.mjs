@@ -4,7 +4,7 @@
 import { chromium } from 'playwright';
 import { mkdirSync } from 'node:fs';
 
-const [out, base = 'http://localhost:8812/', code = 'PARIS'] = process.argv.slice(2);
+const [out, base = 'http://localhost:8812/', code = 'PARIS', tripName = 'Bonjour, Paris'] = process.argv.slice(2);
 const TODAY = '2026-11-20';
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
 
@@ -12,7 +12,7 @@ async function session(viewport, scale) {
   const ctx = await b.newContext({ viewport, deviceScaleFactor: scale, reducedMotion: 'reduce' });
   const p = await ctx.newPage();
   await p.goto(`${base}?mock&today=${TODAY}`);
-  await p.fill('#startForm [name=name]', 'Bonjour, Paris');
+  await p.fill('#startForm [name=name]', tripName);
   await p.fill('#startForm [name=me]', 'Ava');
   await p.fill('#startForm [name=code]', code);
   await p.check('#startForm input[value=sample]', { force: true });
@@ -33,6 +33,7 @@ async function session(viewport, scale) {
 const clean = (p) => p.evaluate(() => document.querySelectorAll('.toast').forEach((t) => t.remove()));
 
 async function shoot(s, dir, name, hash, prep, { full = true } = {}) {
+  if (!(await s.p.evaluate((h) => !!VIEWS[h], hash))) return; // this edition doesn't have that tab
   await s.p.goto('about:blank');
   await s.p.goto(`${s.url}#${hash}`);
   await s.p.waitForTimeout(1100);
@@ -46,7 +47,7 @@ const PAGES = [
   ['01-home', 'home'], ['02-guest-list', 'guests'], ['03-trip-dashboard', 'dashboard'], ['04-group-picks', 'vote'],
   ['05-itinerary', 'itinerary'], ['06-budget-overview', 'budget'],
   ['07-budget-split', 'budget', (p) => p.click('[data-action=budgetView][data-v=split] >> visible=true')],
-  ['08-booking-tracker', 'bookings'], ['09-packing-list', 'packing'], ['10-good-to-know', 'pocket'],
+  ['08-booking-tracker', 'bookings'], ['09-packing-list', 'packing'], ['10-good-to-know', 'pocket'], ['10-trip-essentials', 'essentials'],
   ['11-dream-board', 'dream'], ['12-memories', 'memories'],
 ];
 const SHEETS = [
@@ -72,7 +73,7 @@ for (const [label, vp, sc] of [['laptop', { width: 1440, height: 900 }, 2], ['ph
   const c = await b.newContext({ viewport: vp, deviceScaleFactor: sc, reducedMotion: 'reduce' });
   const p = await c.newPage();
   await p.goto(`${base}?mock&today=${TODAY}`); await p.waitForTimeout(700);
-  await p.fill('#startForm [name=name]', 'Bonjour, Paris'); await p.fill('#startForm [name=me]', 'Ava');
+  await p.fill('#startForm [name=name]', tripName); await p.fill('#startForm [name=me]', 'Ava');
   await p.screenshot({ path: `${dir}/00-start-screen.png` });
   await c.close(); await s.ctx.close();
   console.log('done', label);
