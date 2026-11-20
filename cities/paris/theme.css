@@ -44,20 +44,43 @@
   --pattern: conic-gradient(from 45deg, var(--p-blue) 25%, var(--p-cream) 0 50%, var(--p-blue) 0 75%, var(--p-cream) 0) 0 0 / 16px 16px;
 }
 
+/* Playfair's default numbers are old-style (they dip below the line). Use lining numbers everywhere. */
+body { font-feature-settings: "lnum" 1; }
+
+/* Playfair sits its numbers a touch low and needs more line height than Fraunces: re-centre the boxed ones */
+.vote-rank { padding-bottom: .12em; line-height: 1; }
+.todo-list .n { padding-bottom: .08em; }
+.stamp-inner { padding: 8px 4px 9px; }
+.stamp-inner .big { line-height: 1.1; margin: 2px 0 4px; }
+.stamp-inner .lbl { letter-spacing: .08em; padding: 0 2px; }
+.stamp-inner .roma { margin-bottom: 0; }
+
+/* tagline: straight and tucked under the logo */
+.side-brand .tagline { transform: none; margin-top: 10px; font-size: 18px; }
+.side-brand::after { margin-top: 14px; }
+
 /* Playfair runs a little larger than Fraunces at the same size; pull headings in slightly */
 h1, h2, h3, h4 { letter-spacing: 0; }
 .view-head h1 { font-size: clamp(30px, 7vw, 42px); }
 
-/* ---- pattern: header band, card trim, start card — not everywhere ---- */
+/* ---- diamond pattern: only as thin bands (cover header, under the logo, Good to Know header) ---- */
 .hero-photo::before {
-  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 18px; z-index: 2;
-  background: var(--pattern); border-bottom: 2px solid var(--p-espresso);
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 16px; z-index: 2;
+  background: var(--pattern); border-bottom: 1.5px solid var(--p-espresso);
 }
-.washi::before { background: var(--pattern); opacity: .95; height: 20px; border: 1.5px solid rgba(92,49,39,.25); }
-.washi.ochre-tape::before { background: repeating-linear-gradient(90deg, rgba(255,255,255,.3) 0 6px, transparent 6px 12px), var(--p-tan); border: 0; }
-.washi.mint-tape::before { background: repeating-linear-gradient(90deg, rgba(255,255,255,.35) 0 6px, transparent 6px 12px), var(--p-pink); border: 0; }
-.start-card::before { background: var(--pattern); height: 22px; opacity: .95; border: 1.5px solid rgba(92,49,39,.25); }
-.side-brand::after { content: ""; display: block; height: 10px; margin-top: 16px; border-radius: 99px; background: var(--pattern); opacity: .9; }
+.side-brand::after {
+  content: ""; display: block; height: 16px; margin-top: 16px; background: var(--pattern);
+  border-top: 1.5px solid var(--p-espresso); border-bottom: 1.5px solid var(--p-espresso);
+}
+.pocket-band { height: 16px; border-radius: 0; border-top: 1.5px solid var(--p-espresso); border-bottom: 1.5px solid var(--p-espresso); }
+
+/* ---- card tape: plain café-au-lait paper tape (pink on the odd one) ---- */
+.washi::before, .start-card::before {
+  background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,0) 60%), var(--p-tan);
+  opacity: .62; height: 22px; border: 0; box-shadow: none;
+}
+.washi.ochre-tape::before { background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,0) 60%), var(--p-pink); opacity: .8; }
+.washi.mint-tape::before { background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,0) 60%), var(--p-tan); }
 
 /* ---- colors the shared styles hard-code for Rome ---- */
 body::before {

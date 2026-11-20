@@ -4,7 +4,14 @@
   "localName": "Paris",
   "mockCode": "PARIS",
   "codeUpperCase": true,
-  "firebase": null,
+  "firebase": {
+    "apiKey": "AIzaSyBfUtmH0HTOFLJzDH5BboElvU0XBk8YVhs",
+    "authDomain": "paris-itinerary-950a6.firebaseapp.com",
+    "projectId": "paris-itinerary-950a6",
+    "storageBucket": "paris-itinerary-950a6.firebasestorage.app",
+    "messagingSenderId": "702569627687",
+    "appId": "1:702569627687:web:8b959a08300d1f2b280e02"
+  },
   "fonts": [
     ["Playfair Display", 500, "normal", "playfair-display-latin-500-normal.woff2"],
     ["Playfair Display", 600, "normal", "playfair-display-latin-600-normal.woff2"],
@@ -35,7 +42,7 @@
     { "id": "budget", "label": "Budget & Split", "short": "Budget", "emoji": "💶" },
     { "id": "bookings", "label": "Booking Tracker", "short": "Bookings", "emoji": "🎟️" },
     { "id": "packing", "label": "Packing List", "short": "Packing", "emoji": "🧳" },
-    { "id": "pocket", "label": "Pocket Paris", "short": "Pocket", "emoji": "💬" },
+    { "id": "pocket", "label": "Good to Know", "short": "Guide", "emoji": "💬" },
     { "id": "dream", "label": "Dream Board", "short": "Dream", "emoji": "💭" },
     { "id": "memories", "label": "Memories", "short": "Memories", "emoji": "📸" }
   ],
@@ -158,7 +165,7 @@
   },
 
   "pocket": {
-    "title": "Pocket Paris",
+    "title": "Good to Know",
     "lede": "Phrases, customs and fun facts, sized for your phone.",
     "lang": "fr-FR",
     "phrases": {
